@@ -17,9 +17,7 @@
 
 - Modelo de Organização:
 ## Modelo Hierárquico
-<h6 align="center">
 ![Modelo Hierárquico](assets/images/modelo-hierarquico.png)
-</h6>
 
 ## Modelo Rede
 ![Modelo Rede](assets/images/modelo-rede.png)
@@ -44,6 +42,61 @@
 ![Modelo Lógico (Esquema do BD)](assets/images/modelo-logico.png)
 ## Modelo Físico (Script do BD em SQL)
 ![Modelo Físico (Script do BD em SQL)](assets/images/modelo-fisico.png)
+
+## Entidades
+![Entidades](assets/images/entidades.png)
+
+## Atributos
+![Atributos](assets/images/atributos.png)
+
+## Relacionamentos
+![Relacionamentos](assets/images/relationamentos.png)
+
+- Restrições em relacionamento: Existem 3 variações possíveis.
+
+- 1:1 – cada instância de uma entidade relaciona-se com uma e somente uma instância da outra.
+
+- 1:N (ou N:1) – uma instância relaciona-se com várias na outra entidade, mas cada instância da outra entidade só pode estar relacionada a uma única ocorrência da primeira entidade.
+
+- N:N (ou N:M) – uma instância relaciona-se com várias ocorrências na outra entidade, e vice-versa.
+
+## Restrições Relacionamentos
+![Restrições Relacionamentos](assets/images/restricao-relationamentos.png)
+
+## CrowsFoot
+![CrowsFoot](assets/images/crowsfoot.png)
+
+- Grau do Relacionamento:
+
+- Unário (grau 1): relacionamento com a própria entidade, também chamado de relacionamento recursivo ou autorrelacionamento.
+
+- Binário (grau 2): mais comum.
+
+- Ternário (grau 3): maior complexidade.
+
+## Grau do Relacionamento
+![Grau do Relacionamento](assets/images/grau-relacionamento.png)
+
+
+- Generalização/especialização:
+
+- Total (t): toda ocorrência da entidade genérica deverá estar associada a uma ocorrência de uma de suas entidades especializadas;
+
+- Parcial (p): nem toda ocorrência da entidade genérica possui uma ocorrência em uma de suas entidades especializadas;
+
+- Exclusiva (x): uma ocorrência de entidade genérica é especializada no máximo uma vez;
+
+- Compartilhada (c): uma ocorrência da entidade genérica pode aparecer em várias de suas entidades especializadas.
+
+## Generalização/especialização
+![Generalização/especialização](assets/images/generalizacao-especializacao.png)
+
+
+## Entidade associativa
+![Entidade associativa](assets/images/entidade-associativa.png)
+
+## Ferramenta brModelo
+![Ferramenta brModelo](assets/images/br-modelo.png)
 
 </details>
 
