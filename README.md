@@ -7,7 +7,7 @@
 O projeto é composto pelas seções:
 
 - **Java:** Nele temos todo o conteúdo ministrado no bootcamp sobre a linguagem Java;
-- **Postgress**  Nele temos todo o conteúdo ministrado no bootcamp sobre banco de dados Postgres;
+- **PostgresSQL**  Nele temos todo o conteúdo ministrado no bootcamp sobre banco de dados Postgres;
 
 ---
 
