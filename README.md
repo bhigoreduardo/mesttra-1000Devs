@@ -2,6 +2,8 @@
   💻<br>Bootcamp Mestta and Johnson &amp; Johnson 1000Devs
 </h1>
 
+![Resultado final do projeto](assets/image/preview.png)
+
 ## 📚 Seções
 
 O projeto é composto pelas seções:
