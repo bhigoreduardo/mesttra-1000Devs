@@ -17,7 +17,9 @@
 
 - Modelo de Organização:
 ## Modelo Hierárquico
+<h6 align="center">
 ![Modelo Hierárquico](assets/images/modelo-hierarquico.png)
+</h6>
 
 ## Modelo Rede
 ![Modelo Rede](assets/images/modelo-rede.png)
