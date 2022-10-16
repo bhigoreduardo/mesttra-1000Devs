@@ -5,7 +5,7 @@ Os contratos de mão-de-obra temporária são feitos individualmente (um contrat
 As empresas clientes são identificadas por um C.G.C. e possuem um nome e endereço. 
 Fazer um DER que apresente uma solução para o problema.
 
-![Cliente Profissional](assets/images/cliente-profissional.png)
+![Cliente Profissional](../assets/images/cliente-profissional.png)
 
 ## Cliente Locadora
 
@@ -13,7 +13,7 @@ Uma vídeo-locadora trabalha com o aluguel de DVDs, BDs e cartuchos de jogos. To
 A locadora empresta apenas para os clientes cadastrados. Nome, endereço, data de nascimento e telefones dos clientes ficam anotados em uma ficha junto com um código numérico sequencial atribuído ao cliente no momento do cadastro. 
 Cada cliente pode alugar um ou mais objetos de locação (DVD, BD ou Cartucho), sendo que cada um destes só pode ser alugado por apenas 1 cliente em um determinado momento (data). É interesse da locadora, entretanto, manter um histórico dos aluguéis já realizados, a fim de gerenciar o perfil dos seus clientes.
 
-![Cliente Locadora](assets/images/cliente-locadora.png)
+![Cliente Locadora](../assets/images/cliente-locadora.png)
 
 ## Vendedor Venda
 
@@ -26,4 +26,4 @@ A fim de gerenciar as vendas em uma loja, os seguintes requisitos devem ser aten
 - Vendas envolvem produtos, sendo que para cada venda a quantidade vendida do produto deve ser registrada.
 - Produtos possuem código, descrição, preço e quantidade em estoque.
 
-![Vendedor Venda](assets/images/vendedor-venda.png)
+![Vendedor Venda](../assets/images/vendedor-venda.png)
