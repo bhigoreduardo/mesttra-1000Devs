@@ -52,6 +52,8 @@
 ## Relacionamentos
 ![Relacionamentos](assets/images/relationamentos.png)
 
+## Restrições Relacionamentos
+
 - Restrições em relacionamento: Existem 3 variações possíveis.
 
 - 1:1 – cada instância de uma entidade relaciona-se com uma e somente uma instância da outra.
@@ -60,11 +62,12 @@
 
 - N:N (ou N:M) – uma instância relaciona-se com várias ocorrências na outra entidade, e vice-versa.
 
-## Restrições Relacionamentos
 ![Restrições Relacionamentos](assets/images/restricao-relationamentos.png)
 
 ## CrowsFoot
 ![CrowsFoot](assets/images/crowsfoot.png)
+
+## Grau do Relacionamento
 
 - Grau do Relacionamento:
 
@@ -74,9 +77,9 @@
 
 - Ternário (grau 3): maior complexidade.
 
-## Grau do Relacionamento
 ![Grau do Relacionamento](assets/images/grau-relacionamento.png)
 
+## Generalização/especialização
 
 - Generalização/especialização:
 
@@ -88,9 +91,7 @@
 
 - Compartilhada (c): uma ocorrência da entidade genérica pode aparecer em várias de suas entidades especializadas.
 
-## Generalização/especialização
 ![Generalização/especialização](assets/images/generalizacao-especializacao.png)
-
 
 ## Entidade associativa
 ![Entidade associativa](assets/images/entidade-associativa.png)
