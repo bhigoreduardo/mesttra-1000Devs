@@ -5,9 +5,13 @@
 <details>
 <summary>✨ Conceitos</summary>
 - Banco de Dados: São coleções de informações que se relacionam de forma que crie um sentido.
+
 - Dados: Dados representam um ou mais significados que, de forma isolada, não conseguem ainda transmitir uma mensagem clara.
+
 - Informações: São os dados devidamente tratados e analisados, produzindo conhecimento relevante.
+
 - Conhecimento: É a informação com um contexto bem definido, processado de forma efetiva pelos profissionais.
+
 - SGBD: Sistema de Gerenciamento de banco de dados (SGBD) é um software que incorpora e facilita as funções de definição, recuperação e alteração de dados em um Banco de Dados.
 
 - Modelo de Organização:
