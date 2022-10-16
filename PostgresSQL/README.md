@@ -187,3 +187,7 @@ TRUNCATE pedido CASCADE;
 ## ROLLBACK
 
 </details>
+
+## SQL JOIN
+
+![SQL JOIN](assets/images/sql-joins.png)
