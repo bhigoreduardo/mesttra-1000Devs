@@ -28,6 +28,15 @@
 ## Modelo Orientado a Objetos
 ![Modelo Orientado a Objetos](assets/images/modelo-orientado-objetos.png)
 
+## Structured Query Language (SQL)
+- DDL: Linguagem de Definição de Dados.
+
+- DML: Linguagem de Manipulação de Dados.
+
+- DCL: Linguagem de Controle de Dados.
+
+- DTL: Linguagem de Controle de Transações.
+
 </details>
 
 <details>
@@ -102,18 +111,79 @@
 </details>
 
 <details>
-<summary>🗂️ Criação de Batabase</summary>
-- Comunicação do Banco de Dados H2: `resources/application.properties`
+<summary>🗂️ Exemplos de SQL</summary>
 
-    ```
-    spring.datasource.url=jdbc:h2:mem:testdb
-    spring.datasource.username=sa
-    spring.datasource.password=
+- Estrutura da SQL - DDL
 
-    spring.h2.console.enabled=true
-    spring.h2.console.path=/h2-console
+## CREATE
+```
+CREATE DATABASE empresa
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+```
 
-    spring.jpa.show-sql=true
-    spring.jpa.properties.hibernate.format_sql=true
-    ```
+## ALTER
+```
+ALTER TABLE departamento
+    ADD CONSTRAINT fk_departamento_funcionario
+    FOREIGN KEY (codigo_funcionario)
+        REFERENCES public.funcionario (codigo) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE NO ACTION;
+```
+
+## DROP
+```
+DROP DATABASE empresa;
+```
+
+- Estrutura da SQL - DML (CRUD)
+
+## INSERT
+```
+INSERT INTO departamento (nome, localizacao, codigo_funcionario) VALUES
+	('RH', 'Setor 1', 1),
+	('Marketing', 'Setor 2', 2),
+	('Gestão', 'Setor 3', 3),
+	('Vendas', 'Setor 4', 4);
+```
+
+## SELECT
+```
+SELECT *
+	FROM fruta_a;
+```
+
+## UPDATE
+```
+UPDATE cliente
+    SET nome = “Saitama” WHERE id_cliente = 18;
+```
+
+## DELETE
+```
+DELETE FROM venda WHERE status = 1;
+```
+
+## TRUNCATE
+```
+TRUNCATE pedido CASCADE;
+```
+
+- Estrutura da SQL - DCL
+## GRANT
+
+## REVOKE
+
+- Estrutura da SQL - DTL
+
+## BEGIN TRANSACTION
+
+## COMMIT
+
+## ROLLBACK
+
 </details>
