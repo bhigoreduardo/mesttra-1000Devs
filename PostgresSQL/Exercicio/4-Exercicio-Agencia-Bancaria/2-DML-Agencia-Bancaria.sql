@@ -40,3 +40,9 @@ INSERT INTO saque
 	(cod_conta, valor_saque)
 	VALUES
 	(9, 10001);
+
+/* Insert deposito */
+INSERT INTO deposito
+	(cod_conta, valor_deposito)
+	VALUES
+	(9, 1000);
