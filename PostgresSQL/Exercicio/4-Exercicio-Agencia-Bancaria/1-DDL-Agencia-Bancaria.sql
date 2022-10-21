@@ -38,3 +38,12 @@ CREATE TABLE IF NOT EXISTS cliente (
 	endereco VARCHAR(100),
 	genero CHAR(1) NOT NULL
 );
+
+/* Created Table conta */
+CREATE TABLE IF NOT EXISTS conta (
+	cod_conta SERIAL PRIMARY KEY,
+	cod_agencia INTEGER REFERENCES agencia,
+	cod_cliente INTEGER REFERENCES cliente,
+	saldo NUMERIC(9,2) NOT NULL,
+	limite NUMERIC(9,2) NOT NULL
+);
