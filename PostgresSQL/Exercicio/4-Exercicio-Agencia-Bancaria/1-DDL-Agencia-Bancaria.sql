@@ -60,3 +60,12 @@ CREATE TABLE IF NOT EXISTS saque (
 	valor_saque NUMERIC(9,2) NOT NULL,
 	CHECK (valor_saque > 0)
 );
+
+/* Created Table deposito */
+CREATE TABLE IF NOT EXISTS deposito (
+	cod_deposito SERIAL PRIMARY KEY,
+	data_deposito DATE NOT NULL DEFAULT(CURRENT_DATE),
+	cod_conta INTEGER REFERENCES conta,
+	valor_deposito NUMERIC(9,2) NOT NULL,
+	CHECK (valor_deposito > 0)
+);
