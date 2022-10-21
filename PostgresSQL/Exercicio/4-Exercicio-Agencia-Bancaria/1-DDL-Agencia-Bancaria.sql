@@ -166,7 +166,7 @@ BEGIN
 	/* Verificar saldo */
 	IF ( NEW.valor_transferencia > ( SELECT (saldo + limite)
 								     FROM conta
-								   	 WHERE cod_conta = cod_conta_deb) ) THEN
+								   	 WHERE cod_conta = NEW.cod_conta_deb) ) THEN
 		RAISE EXCEPTION 'O saldo e limite em conta são insuficientes para realizar a transferência.';
 	ELSE
 		/* Debitar saldo */
