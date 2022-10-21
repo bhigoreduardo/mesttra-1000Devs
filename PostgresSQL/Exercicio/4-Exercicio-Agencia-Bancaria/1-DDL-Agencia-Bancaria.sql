@@ -117,8 +117,8 @@ BEGIN
 	   	O valor do saque deve ser menor que a soma entre saldo e limite.
 	*/
 	IF ( NEW.valor_saque > (SELECT (saldo + limite)
-	   	 FROM conta
-	   	 WHERE cod_conta = NEW.cod_conta) ) THEN
+	   	                    FROM conta
+	   	                    WHERE cod_conta = NEW.cod_conta) ) THEN
 		 RAISE EXCEPTION 'O saldo e limite em conta são insuficientes para realizar o saque.';
 	ELSE
 		/* Debitar saldo */
@@ -155,3 +155,34 @@ LANGUAGE plpgsql;
 CREATE TRIGGER tr_efetuar_deposito
 BEFORE INSERT ON deposito
 FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_deposito();
+
+/* Regra de Negócio:
+    Quando for feita uma transferência é necessário verificar se existe saldo na conta que receberá o débito e,
+    caso exista o saldo, efetuar o crédito na conta destinatária. */
+/* Created Function-Trigger efetuar_transferencia  */
+CREATE OR REPLACE FUNCTION fc_efetuar_transferencia() RETURNS TRIGGER AS
+$$
+BEGIN
+	/* Verificar saldo */
+	IF ( NEW.valor_transferencia > ( SELECT (saldo + limite)
+								     FROM conta
+								   	 WHERE cod_conta = cod_conta_deb) ) THEN
+		RAISE EXCEPTION 'O saldo e limite em conta são insuficientes para realizar a transferência.';
+	ELSE
+		/* Debitar saldo */
+		UPDATE conta
+			SET saldo = saldo - NEW.valor_transferencia
+			WHERE cod_conta = NEW.cod_conta_deb;
+		/* Creditar saldo */
+		UPDATE conta
+			SET saldo = saldo + NEW.valor_transferencia
+			WHERE cod_conta = NEW.cod_conta_cred;
+		RAISE NOTICE 'Transferência efetuada no valor de R$ %', NEW.valor_transferencia;
+	END IF;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_efetuar_transferencia
+BEFORE INSERT ON transferencia
+FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_transferencia();
