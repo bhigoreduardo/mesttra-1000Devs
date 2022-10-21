@@ -178,6 +178,7 @@ BEGIN
 			SET saldo = saldo + NEW.valor_transferencia
 			WHERE cod_conta = NEW.cod_conta_cred;
 		RAISE NOTICE 'Transferência efetuada no valor de R$ %', NEW.valor_transferencia;
+		RETURN NEW;
 	END IF;
 END;
 $$
@@ -186,3 +187,34 @@ LANGUAGE plpgsql;
 CREATE TRIGGER tr_efetuar_transferencia
 BEFORE INSERT ON transferencia
 FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_transferencia();
+
+
+/* Regra de Negócio:
+   Quando o limite da conta for alterado, o sistema deve verificar se o novo limite não é inferior ao saldo atual. */
+/* Created Function-Trigger alterar_limite  */
+CREATE OR REPLACE FUNCTION fc_alterar_limite() RETURNS TRIGGER AS
+$$
+BEGIN
+	/* Verificar saldo */
+	/* CASE 1:
+		saldo: R$ 20,00 AND limite: R$ 10,00 => saque máx: R$ 30,00
+	   CASE 2:
+	   	saldo: R$ -5,00 AND limite: R$ 10,00 => saque máx: R$ 5,00
+	   CASE 3:
+	   	saldo: R$ -10,00 AND limite: R$ 10,00 => saque máx: R$ 0,00
+	   RESULT:
+	   	A soma entre saldo e limite deve ser igual ou maior que ZERO.
+	*/
+	IF ( NEW.limite + OLD.saldo < 0 ) THEN
+		RAISE EXCEPTION 'O novo limite não pode ser alterado.';
+	END IF;
+	
+	RAISE NOTICE 'Limite alterado com sucesso.';
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_alterar_limite
+BEFORE UPDATE ON conta
+FOR EACH ROW EXECUTE PROCEDURE fc_alterar_limite();
