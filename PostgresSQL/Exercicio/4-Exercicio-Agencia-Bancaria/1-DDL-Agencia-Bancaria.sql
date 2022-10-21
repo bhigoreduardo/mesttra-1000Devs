@@ -47,3 +47,7 @@ CREATE TABLE IF NOT EXISTS conta (
 	saldo NUMERIC(9,2) NOT NULL,
 	limite NUMERIC(9,2) NOT NULL
 );
+
+/* Set Default Value in Table conta Column limite */
+ALTER TABLE conta
+	ALTER COLUMN limite SET DEFAULT(100.00);
