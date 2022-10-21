@@ -29,3 +29,14 @@ INSERT INTO conta
 	(2, 2, 20000),
 	(2, 3, 40000),
 	(2, 4, 50000);
+
+/* Insert saque */
+INSERT INTO saque
+	(cod_conta, valor_saque)
+	VALUES
+	(9, 100001);
+
+INSERT INTO saque
+	(cod_conta, valor_saque)
+	VALUES
+	(9, 10001);
