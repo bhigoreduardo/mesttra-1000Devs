@@ -69,3 +69,13 @@ CREATE TABLE IF NOT EXISTS deposito (
 	valor_deposito NUMERIC(9,2) NOT NULL,
 	CHECK (valor_deposito > 0)
 );
+
+/* Created Table transferencia */
+CREATE TABLE IF NOT EXISTS transferencia (
+	cod_transferencia SERIAL PRIMARY KEY,
+	data_transferencia DATE NOT NULL DEFAULT(CURRENT_DATE),
+	cod_conta_deb INTEGER REFERENCES conta,
+	cod_conta_cred INTEGER REFERENCES conta,
+	valor_transferencia NUMERIC(9,2) NOT NULL,
+	CHECK (valor_transferencia > 0)
+);
