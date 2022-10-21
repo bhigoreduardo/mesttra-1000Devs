@@ -20,3 +20,12 @@ INSERT INTO cliente
 	('Genos', 'Cyborg', 'Cidade Z', 'M'),
 	('Child', 'Empreror', 'Cidade A', 'M'),
 	('King', 'Motor', 'Cidade A', 'M');
+
+/* Insert conta */
+INSERT INTO conta
+	(cod_agencia, cod_cliente, saldo)
+	VALUES
+	(2, 1, 10000),
+	(2, 2, 20000),
+	(2, 3, 40000),
+	(2, 4, 50000);
