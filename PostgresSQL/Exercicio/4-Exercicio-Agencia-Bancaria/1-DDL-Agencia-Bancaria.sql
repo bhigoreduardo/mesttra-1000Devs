@@ -99,3 +99,38 @@ LANGUAGE plpgsql;
 CREATE TRIGGER tr_registrar_conta
 BEFORE INSERT ON conta
 FOR EACH ROW EXECUTE PROCEDURE fc_registrar_conta();
+
+/* Created Function-Trigger efetuar_saque */
+CREATE OR REPLACE FUNCTION fc_efetuar_saque() RETURNS TRIGGER AS
+$$
+BEGIN
+	/* Verificar saldo */
+	/* CASE 1:
+		saldo: R$ 20,00 AND limite: R$ 10,00 => saque máx: R$ 30,00
+	   CASE 2:
+	   	saldo: R$ -5,00 AND limite: R$ 10,00 => saque máx: R$ 5,00
+	   CASE 3:
+	   	saldo: R$ -10,00 AND limite: R$ 10,00 => saque máx: R$ 0,00
+	   RESULT:
+	   	O valor do saque deve ser menor que a soma entre saldo e limite.
+	*/
+	IF ( NEW.valor_saque > (SELECT (saldo + limite)
+	   	 FROM conta
+	   	 WHERE cod_conta = NEW.cod_conta) ) THEN
+		 RAISE EXCEPTION 'O saldo e limite em conta são insuficientes para realizar o saque.';
+	ELSE
+		/* Debitar saldo */
+		UPDATE conta
+			SET saldo = saldo - NEW.valor_saque
+			WHERE cod_conta = NEW.cod_conta;
+		RAISE NOTICE 'Saque realizado no valor de R$ %', NEW.valor_saque;
+		/* Lançar saque */
+		RETURN NEW;
+	END IF;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_efetuar_saque
+BEFORE INSERT ON saque
+FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_saque();
