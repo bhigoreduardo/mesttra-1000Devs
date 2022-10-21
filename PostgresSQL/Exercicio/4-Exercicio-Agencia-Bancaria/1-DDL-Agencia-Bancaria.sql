@@ -17,3 +17,10 @@ CREATE TABLE IF NOT EXISTS agencia (
 	telefone VARCHAR(20) NOT NULL,
 	gerente INTEGER NOT NULL
 );
+
+/* Created Table funcionario */
+CREATE TABLE IF NOT EXISTS funcionario (
+	cod_funcionario SERIAL PRIMARY KEY,
+	nome VARCHAR(140) NOT NULL,
+	cod_agencia INTEGER REFERENCES agencia
+);
