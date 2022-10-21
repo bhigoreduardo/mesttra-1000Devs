@@ -29,3 +29,12 @@ CREATE TABLE IF NOT EXISTS funcionario (
 ALTER TABLE agencia
 	ADD CONSTRAINT fk_agencia_gerente
 	FOREIGN KEY (gerente) REFERENCES funcionario;
+
+/* Created Table cliente */
+CREATE TABLE IF NOT EXISTS cliente (
+	cod_cliente SERIAL PRIMARY KEY,
+	nome VARCHAR(40) NOT NULL,
+	sobrenome VARCHAR(60) NOT NULL,
+	endereco VARCHAR(100),
+	genero CHAR(1) NOT NULL
+);
