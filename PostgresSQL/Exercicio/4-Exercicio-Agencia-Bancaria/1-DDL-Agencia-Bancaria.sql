@@ -100,6 +100,8 @@ CREATE TRIGGER tr_registrar_conta
 BEFORE INSERT ON conta
 FOR EACH ROW EXECUTE PROCEDURE fc_registrar_conta();
 
+/* Regra de Negócio:
+    Quando um cliente for efetuar um saque o sistema deve verificar se existe saldo suficiente para realizar o saque. */
 /* Created Function-Trigger efetuar_saque */
 CREATE OR REPLACE FUNCTION fc_efetuar_saque() RETURNS TRIGGER AS
 $$
@@ -134,3 +136,22 @@ LANGUAGE plpgsql;
 CREATE TRIGGER tr_efetuar_saque
 BEFORE INSERT ON saque
 FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_saque();
+
+/* Regra de Negócio:
+    Quando for feito um depósito o valor depositado deve ser acrescentado ao saldo da conta do cliente. */
+/* Created Function-Trigger efetuar_deposito  */
+CREATE OR REPLACE FUNCTION fc_efetuar_deposito() RETURNS TRIGGER AS
+$$
+BEGIN
+	UPDATE conta
+		SET saldo = saldo + NEW.valor_deposito
+		WHERE cod_conta = NEW.cod_conta;
+	RAISE INFO 'Depósito efetuado com sucesso.';
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_efetuar_deposito
+BEFORE INSERT ON deposito
+FOR EACH ROW EXECUTE PROCEDURE fc_efetuar_deposito();
