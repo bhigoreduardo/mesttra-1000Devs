@@ -51,3 +51,12 @@ CREATE TABLE IF NOT EXISTS conta (
 /* Set Default Value in Table conta Column limite */
 ALTER TABLE conta
 	ALTER COLUMN limite SET DEFAULT(100.00);
+
+/* Created Table saque */
+CREATE TABLE IF NOT EXISTS saque (
+	cod_saque SERIAL PRIMARY KEY,
+	data_saque DATE NOT NULL DEFAULT(CURRENT_DATE),
+	cod_conta INTEGER REFERENCES conta,
+	valor_saque NUMERIC(9,2) NOT NULL,
+	CHECK (valor_saque > 0)
+);
