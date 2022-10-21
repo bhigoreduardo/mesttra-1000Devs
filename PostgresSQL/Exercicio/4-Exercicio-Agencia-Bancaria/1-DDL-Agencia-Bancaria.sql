@@ -8,3 +8,12 @@ CREATE DATABASE agencia_bancaria
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
+
+/* Created Table agencia */
+CREATE TABLE IF NOT EXISTS agencia (
+	cod_agencia SERIAL PRIMARY KEY,
+	nome VARCHAR(140) NOT NULL,
+	endereco VARCHAR(140) NOT NULL,
+	telefone VARCHAR(20) NOT NULL,
+	gerente INTEGER NOT NULL
+);
