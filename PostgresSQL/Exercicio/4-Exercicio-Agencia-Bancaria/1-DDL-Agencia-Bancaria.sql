@@ -48,6 +48,9 @@ CREATE TABLE IF NOT EXISTS conta (
 	limite NUMERIC(9,2) NOT NULL
 );
 
+/*
+Regra de Negócio:
+    Quando for cadastrar uma nova conta o limite inicial sempre deverá ser de R$ 100,00. */
 /* Set Default Value in Table conta Column limite */
 ALTER TABLE conta
 	ALTER COLUMN limite SET DEFAULT(100.00);
