@@ -46,3 +46,14 @@ INSERT INTO deposito
 	(cod_conta, valor_deposito)
 	VALUES
 	(9, 1000);
+
+/* Insert transferencia */
+INSERT INTO transferencia
+	(cod_conta_deb, cod_conta_cred, valor_transferencia)
+	VALUES
+	(9, 10, 100000);
+	
+INSERT INTO transferencia
+	(cod_conta_deb, cod_conta_cred, valor_transferencia)
+	VALUES
+	(9, 10, 1000);
