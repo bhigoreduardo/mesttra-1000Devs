@@ -24,3 +24,8 @@ CREATE TABLE IF NOT EXISTS funcionario (
 	nome VARCHAR(140) NOT NULL,
 	cod_agencia INTEGER REFERENCES agencia
 );
+
+/* Added Constraint gerente in Table agencia */
+ALTER TABLE agencia
+	ADD CONSTRAINT fk_agencia_gerente
+	FOREIGN KEY (gerente) REFERENCES funcionario;
