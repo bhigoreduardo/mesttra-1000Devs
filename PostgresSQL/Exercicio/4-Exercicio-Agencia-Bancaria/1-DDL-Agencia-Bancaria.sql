@@ -82,3 +82,20 @@ CREATE TABLE IF NOT EXISTS transferencia (
 	valor_transferencia NUMERIC(9,2) NOT NULL,
 	CHECK (valor_transferencia > 0)
 );
+
+/*
+Regra de Negócio:
+    Quando for cadastrar uma nova conta o limite inicial sempre deverá ser de R$ 100,00. */
+/* Created Function-Trigger registrar_conta */
+CREATE OR REPLACE FUNCTION fc_registrar_conta() RETURNS TRIGGER AS
+$$
+BEGIN
+	NEW.limite = 100.00;
+	RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_registrar_conta
+BEFORE INSERT ON conta
+FOR EACH ROW EXECUTE PROCEDURE fc_registrar_conta();
