@@ -52,3 +52,114 @@ INSERT INTO enfermidade_paciente VALUES
 (8, 8, 3, '08-09-2015'),
 (9, 9, 4, '09-09-2015'),
 (10, 10, 5, '10-09-2015');
+
+/* a) 	Crie uma consulta que retorne o código, nome, sobrenome, 
+numero_crm e especialidade de todos os médicos. */
+SELECT CONCAT(nome, ' ', sobrenome) AS medico, numero_crm, especialidade
+	FROM medico;
+
+/* b)	 Crie uma consulta que retorne o nome, sobrenome e
+ o numero_crm de todos os médicos ordenados por nome. */
+SELECT CONCAT(nome, ' ', sobrenome) AS medico, numero_crm, especialidade
+	FROM medico
+	ORDER BY nome;
+
+/* c) 	Crie uma consulta que traga o nome, sobrenome 
+e o endereço de todos os pacientes que são do gênero masculino. */
+SELECT CONCAT(nome, ' ', sobrenome) as paciente, endereco
+	FROM paciente
+	WHERE genero = 'M';
+
+/* d) 	Crie uma consulta para mostrar o nome 
+e o sobrenome de todos os pacientes do médico chamado Drive Knight. */
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente, CONCAT(m.nome, ' ', m.sobrenome) AS medico
+	FROM paciente p INNER JOIN medico m
+		ON p.cod_medico = m.cod_medico
+	WHERE m.nome = 'Drive' AND m.sobrenome = 'Knight';
+
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente, CONCAT(m.nome, ' ', m.sobrenome) AS medico
+	FROM paciente p, medico m
+	WHERE p.cod_medico = m.cod_medico
+		AND m.nome = 'Drive'
+		AND m.sobrenome = 'Knight';
+
+/* e)	Crie uma consulta que traga o nome, sobrenome 
+e a data de nascimento de todos os pacientes ordenados 
+por data de nascimento do mais novo para o mais velho. */
+SELECT CONCAT(nome, ' ', sobrenome) AS paciente, data_nasc
+	FROM paciente
+	ORDER BY data_nasc DESC;
+
+/* f)	Crie uma consulta que mostre quais as enfermidades 
+(nome da doença) do paciente mais novo. */
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente, p.data_nasc, e.descricao
+	FROM enfermidade e INNER JOIN enfermidade_paciente ep
+		ON e.cod_enf = ep.cod_enf INNER JOIN paciente p
+		ON ep.cod_paciente = p.cod_paciente
+	WHERE p.data_nasc = ( SELECT MAX(data_nasc)
+						  FROM paciente );
+						  
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente, p.data_nasc, e.descricao
+	FROM enfermidade e, enfermidade_paciente ep, paciente p
+	WHERE e.cod_enf = ep.cod_enf
+		AND ep.cod_paciente = p.cod_paciente
+		AND p.data_nasc = ( SELECT MAX(data_nasc)
+						  FROM paciente );
+
+/* g)	Crie uma consulta para retornar a quantidade de quartos
+ no 1º Andar. */
+SELECT COUNT(*)
+	FROM quarto
+	WHERE andar = 1;
+
+/* h)	Crie uma consulta que traga a média de salário de todos 
+os médicos. */
+SELECT AVG(salario)::MONEY
+	FROM medico;
+
+/* i)	Crie uma consulta para mostrar a quantidade de médicos 
+ em cada especialidade. */
+SELECT especialidade, COUNT(*) AS total
+	FROM medico
+	GROUP BY especialidade
+	ORDER BY total DESC;
+	
+SELECT DISTINCT especialidade
+	FROM medico;
+
+/* j)	Crie uma consulta que retorne o nome do paciente, 
+sobrenome, nome do médico,  sobrenome e o quarto  dos pacientes 
+que estão com a enfermidade DENGUE. */
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente,
+	   CONCAT(m.nome, ' ', m.sobrenome) AS medico,
+	   q.numero, e.descricao
+   	FROM paciente p INNER JOIN medico m
+		ON p.cod_medico = m.cod_medico INNER JOIN quarto q
+		ON p.cod_quart = q.cod_quart INNER JOIN enfermidade_paciente ep
+		ON p.cod_paciente = ep.cod_paciente INNER JOIN enfermidade e
+		ON e.cod_enf = ep.cod_enf
+	WHERE e.descricao = 'Dengue';
+		
+SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente,
+	   CONCAT(m.nome, ' ', m.sobrenome) AS medico,
+	   q.numero, e.descricao
+   	FROM paciente p, medico m, quarto q, enfermidade_paciente ep, enfermidade e
+	WHERE p.cod_medico = m.cod_medico
+		AND p.cod_quart = q.cod_quart
+		AND p.cod_paciente = ep.cod_paciente 
+		AND e.cod_enf = ep.cod_enf
+		AND e.descricao = 'Dengue';
+
+/* Criação de View */
+CREATE VIEW vw_paciente_medico_dengue AS
+	SELECT CONCAT(p.nome, ' ', p.sobrenome) AS paciente,
+	   CONCAT(m.nome, ' ', m.sobrenome) AS medico,
+	   q.numero, e.descricao
+   	FROM paciente p, medico m, quarto q, enfermidade_paciente ep, enfermidade e
+	WHERE p.cod_medico = m.cod_medico
+		AND p.cod_quart = q.cod_quart
+		AND p.cod_paciente = ep.cod_paciente 
+		AND e.cod_enf = ep.cod_enf
+		AND e.descricao = 'Dengue';
+			
+SELECT * FROM vw_paciente_medico_dengue;
