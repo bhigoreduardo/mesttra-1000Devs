@@ -21,3 +21,15 @@ CREATE TABLE IF NOT EXISTS quarto (
 	numero INTEGER NOT NULL,
 	andar INTEGER NOT NULL
 );
+
+/* Created Table medico */
+CREATE TABLE IF NOT EXISTS medico (
+	cod_medico INTEGER PRIMARY KEY,
+	nome VARCHAR(40) NOT NULL,
+	sobrenome VARCHAR(60) NOT NULL,
+	endereco VARCHAR(100),
+	genero VARCHAR(1),
+	numero_crm VARCHAR(20) NOT NULL,
+	especialidade VARCHAR(60) NOT NULL,
+	salario NUMERIC(9,2) NOT NULL
+);
