@@ -51,3 +51,50 @@ INSERT INTO emprestimo
 UPDATE emprestimo
 	SET devolucao = true
 	WHERE cod_emprestimo = 1;
+
+/* Consult database */
+SELECT * FROM aluno ORDER BY matricula;
+SELECT * FROM autor;
+SELECT * FROM livro ORDER BY cod_livro;
+SELECT * FROM emprestimo;
+
+/*
+a) 	Crie uma consulta que retorne a matricula, nome, sobrenome, gênero e a
+quantidade de livros de todos os alunos.
+*/
+SELECT matricula, CONCAT(nome, ' ', sobrenome) AS aluno, genero, quant_livro
+	FROM aluno;
+
+/*
+b)	 Crie uma consulta que retorne o nome, sobrenome e a quantidade de livros
+cadastrada de cada autor ordenado por nome.
+*/
+SELECT CONCAT(a.nome, ' ', a.sobrenome) AS "autor", COUNT(*) AS livro
+	FROM autor a INNER JOIN livro l
+		ON a.cod_autor = l.cod_autor
+	GROUP BY "autor";
+	
+/*	
+c) 	Crie uma consulta que traga o nome, sobrenome e o endereço de todos os
+alunos com mais de 3 livros emprestados.
+*/
+SELECT matricula, CONCAT(nome, ' ', sobrenome) AS aluno, endereco
+	FROM aluno
+	WHERE quant_livro > 3;
+
+/*
+e)	Crie uma consulta que traga o nome, sobrenome e a data de nascimento de
+todos os alunos ordenados por data de nascimento do mais novo para o mais velho.
+*/
+SELECT CONCAT(nome, ' ', sobrenome) AS aluno, data_nasc
+	FROM aluno
+	ORDER BY data_nasc DESC;
+	
+/*	
+f) 	Escreva o comando para atualizar o cadastro do aluno Metal Bat, alterando
+o endereço para RUA A, Nº 1.
+*/
+UPDATE aluno
+	SET endereco = 'RUA A, Nº 1'
+	WHERE nome = 'Metal'
+		AND sobrenome = 'Bat';
