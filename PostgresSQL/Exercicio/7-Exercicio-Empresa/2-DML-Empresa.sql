@@ -22,3 +22,152 @@ UPDATE departamento SET cod_func_gerente = 7 WHERE codigo = 1;
 UPDATE departamento SET cod_func_gerente = 8 WHERE codigo = 2;
 UPDATE departamento SET cod_func_gerente = 9 WHERE codigo = 3;
 UPDATE departamento SET cod_func_gerente = 10 WHERE codigo = 4;
+
+/* 01 - Listar nome e Sobrenome de Funcionários ordenado por sobrenome. */
+SELECT CONCAT(nome, ' ', sobrenome) AS funcionario
+	FROM funcionario
+	ORDER BY sobrenome;
+	
+/* 02 - Listar todos os campos de Funcionários ordenados por cidade. */
+SELECT *
+	FROM funcionario
+	ORDER BY cidade;
+	
+/* 03 - Liste os funcionários que têm salário superior a R$ 1.000,00 ordenados pelo nome completo. */
+SELECT *
+	FROM funcionario
+	WHERE salario > 1000
+	ORDER BY nome, sobrenome;
+	
+/* 04 - Liste a data de nascimento e o primeiro nome dos 
+funcionários ordenados do mais novo para o mais velho. */
+SELECT nome, datanasci
+	FROM funcionario
+	ORDER BY datanasci DESC;
+	
+/* 05 - Liste os funcionários como uma lista telefônica 
+(Nome, SobreNome, Fone, Endereço, Cidade, UF). */
+SELECT nome, sobrenome, fone, endereco, cidade, uf
+	FROM funcionario;
+	
+/* 06 - Liste o total da folha de pagamento. */
+SELECT SUM(salario)::MONEY
+	FROM funcionario;
+	
+/* 07 - Liste o nome, Sobrenome, Nome do Departamento 
+e a função de todos os funcionários. */
+SELECT CONCAT(f.nome, ' ', f.sobrenome) AS funcionario, d.nome AS departamento, f.funcao
+	FROM funcionario f INNER JOIN departamento d
+		ON f.codigodepartamento = d.codigo;
+		
+SELECT CONCAT(f.nome, ' ', f.sobrenome) AS funcionario, d.nome AS departamento, f.funcao
+	FROM funcionario f, departamento d
+	WHERE f.codigodepartamento = d.codigo;
+	
+/* 08 - Liste todos os departamentos com seus respectivos gerentes. */
+SELECT d.nome AS departamento, CONCAT(f.nome, ' ', f.sobrenome) AS gerente
+	FROM departamento d INNER JOIN funcionario f
+		ON d.cod_func_gerente = f.codigo;
+		
+SELECT d.nome AS departamento, CONCAT(f.nome, ' ', f.sobrenome) AS gerente
+	FROM departamento d, funcionario f
+	WHERE d.cod_func_gerente = f.codigo;
+	
+/* 09 - Liste o valor da folha de pagamento de cada departamento,
+ ordenado pelo nome do departamento. */
+SELECT d.nome AS dapartamento, SUM(f.salario)::MONEY AS salario
+	FROM departamento d INNER JOIN funcionario f
+		ON d.codigo = f.codigodepartamento
+	GROUP BY d.nome;
+	
+SELECT d.nome AS dapartamento, SUM(f.salario)::MONEY AS salario
+	FROM departamento d, funcionario f
+	WHERE d.codigo = f.codigodepartamento
+	GROUP BY d.nome;
+	
+/* 10 - Liste os departamentos dos funcionários que têm a função
+ de Supervisor. */
+SELECT *
+	FROM funcionario
+	WHERE funcao = 'Supervisor';
+	
+/* 11 - Liste a quantidade de funcionários desta empresa. */
+SELECT COUNT(*) AS total
+	FROM funcionario;
+	
+/* 12 - Liste o salário médio pago pela empresa. */ 
+SELECT AVG(salario)::MONEY
+	FROM funcionario;
+	
+/* 13 - Liste o menor salário pago pela empresa em 
+cada departamento. */
+SELECT d.nome AS departamento, MIN(f.salario)::MONEY AS salario
+	FROM departamento d INNER JOIN funcionario f
+		ON d.codigo = f.codigodepartamento
+	GROUP BY d.nome;
+	
+SELECT d.nome AS departamento, MIN(f.salario)::MONEY AS salario
+	FROM departamento d, funcionario f
+	WHERE d.codigo = f.codigodepartamento
+	GROUP BY d.nome;
+	
+/* 14 - Liste o nome completo de todos os funcionários 
+que nasceram antes de 01/01/1980. */
+SELECT CONCAT(nome, ' ', sobrenome) AS funcionario, datanasci
+	FROM funcionario
+	WHERE datanasci < '01/01/1980'
+	ORDER BY datanasci DESC;
+	
+/* 15 - Liste o nome do departamento e do funcionário 
+ordenados por departamento e funcionário. */
+SELECT f.nome AS funcionario, d.nome AS departamento
+	FROM funcionario f INNER JOIN departamento d
+		ON f.codigodepartamento = d.codigo
+	ORDER BY d.nome, f.nome;
+	
+SELECT f.nome AS funcionario, d.nome AS departamento
+	FROM funcionario f, departamento d
+	WHERE f.codigodepartamento = d.codigo
+	ORDER BY d.nome, f.nome;
+	
+/* 16 - Liste os nomes dos funcionários que moram em 
+Cidade Z e que exerçam a função de Telefonista. */
+SELECT *
+	FROM funcionario
+	WHERE cidade = 'Cidade Z'
+		AND funcao = 'Telefonista';
+		
+/* 17 - Liste os nomes dos funcionários que trabalham no 
+Departamento Pessoal. */
+SELECT f.nome AS funcionario, d.nome AS departamento
+	FROM funcionario f INNER JOIN departamento d
+		ON f.codigodepartamento = d.codigo
+	WHERE d.nome = 'Departamento Pessoal';
+	
+SELECT f.nome AS funcionario, d.nome AS departamento
+	FROM funcionario f, departamento d
+	WHERE f.codigodepartamento = d.codigo
+		AND d.nome = 'Departamento Pessoal';
+		
+/* 18 - Liste o nome e o departamento de todos os funcionários 
+que ganham mais do que algum gerente. */
+SELECT f.nome AS funcionario, d.nome AS departamento, f.salario::MONEY AS salario
+	FROM funcionario f INNER JOIN departamento d
+		ON f.codigodepartamento = d.codigo
+	WHERE f.salario > ( SELECT salario
+					   	FROM funcionario
+					   	WHERE codigo = d.cod_func_gerente );
+
+SELECT f.nome AS funcionario, d.nome AS departamento, f.salario::MONEY AS salario
+	FROM funcionario f, departamento d
+	WHERE f.codigodepartamento = d.codigo
+		AND f.salario > ( SELECT salario
+					   	  FROM funcionario
+					   	  WHERE codigo = d.cod_func_gerente );
+
+SELECT f.nome AS funcionario, d.nome AS departamento, f.salario::MONEY AS salario
+	FROM funcionario f INNER JOIN departamento d
+		ON f.codigodepartamento = d.codigo
+	WHERE f.salario > ( SELECT MIN(salario)
+					   	FROM funcionario
+					   	WHERE codigo = d.cod_func_gerente );
