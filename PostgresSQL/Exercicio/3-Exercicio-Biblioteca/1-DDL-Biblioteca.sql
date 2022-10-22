@@ -20,6 +20,10 @@ CREATE TABLE IF NOT EXISTS aluno (
 	quant_livro INTEGER
 );
 
+/* Set Default Value aluno */
+ALTER TABLE aluno
+	ALTER COLUMN quant_livro SET DEFAULT 0;
+
 /* Created Table autor */
 CREATE TABLE IF NOT EXISTS autor (
 	cod_autor SERIAL PRIMARY KEY,
