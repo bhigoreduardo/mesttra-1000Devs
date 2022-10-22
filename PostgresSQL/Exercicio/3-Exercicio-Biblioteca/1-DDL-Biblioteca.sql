@@ -20,6 +20,11 @@ CREATE TABLE IF NOT EXISTS aluno (
 	quant_livro INTEGER
 );
 
+/* Added Check Constraint aluno */
+ALTER TABLE aluno
+	ADD CONSTRAINT chk_quant_livro
+	CHECK (quant_livro >= 0);
+
 /* Set Default Value aluno */
 ALTER TABLE aluno
 	ALTER COLUMN quant_livro SET DEFAULT 0;
