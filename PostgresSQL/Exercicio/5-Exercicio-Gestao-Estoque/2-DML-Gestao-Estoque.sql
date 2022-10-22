@@ -13,6 +13,10 @@ INSERT INTO cliente
 	('Genos', '537159');
 
 /* Insert Compra */
+SELECT * FROM produto;
+SELECT * FROM compra;
+SELECT * FROM item_compra;
+
 INSERT INTO produto
 	(descricao, quantidade, valor_unit, estoque_min)
 	VALUES
@@ -43,3 +47,41 @@ DELETE FROM item_compra
 	WHERE codigo_comp = 1
 		AND codigo_p = 2;
 
+/* Insert venda */
+SELECT * FROM produto;
+SELECT * FROM venda;
+SELECT * FROM item_venda;
+SELECT * FROM cliente;
+SELECT * FROM pagamento;
+
+INSERT INTO venda
+	(codigo_c)
+	VALUES
+	(1);
+	
+INSERT INTO item_venda
+	(codigo_v, codigo_p, quantidade)
+	VALUES
+	(1, 1, 2);
+
+INSERT INTO item_venda
+	(codigo_v, codigo_p, quantidade)
+	VALUES
+	(1, 2, 2);
+
+/* Update parcela */
+UPDATE venda
+	SET parcela = 2
+	WHERE codigo_v = 1;
+
+/* Delete venda */
+DELETE FROM item_venda
+	WHERE codigo_v = 1;
+
+/* Update produto */
+SELECT * FROM produto;
+SELECT * FROM historico_valor_produto;
+
+UPDATE produto
+	SET valor_unit = 1.50
+	WHERE codigo_p = 1;
