@@ -50,3 +50,36 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 	matricula INTEGER NOT NULL REFERENCES aluno,
 	devolucao BOOLEAN DEFAULT false
 );
+
+/* Cada aluno pode pegar emprestado no máximo 4 livros por vez; */
+CREATE OR REPLACE FUNCTION fc_emprestar_livro() RETURNS TRIGGER AS
+$$
+BEGIN
+	IF ( ( ( SELECT quant_livro
+		   FROM aluno
+		   WHERE matricula = NEW.matricula ) >= 4 ) OR
+		 ( ( SELECT status_emp
+		     FROM livro
+		     WHERE cod_livro = NEW.cod_livro ) != false )
+	   ) THEN
+	   RAISE EXCEPTION 'Não é possível realizar o empréstimo.';
+	ELSE
+		UPDATE aluno
+			SET quant_livro = quant_livro + 1
+			WHERE matricula = NEW.matricula;
+		
+		UPDATE livro
+			SET status_emp = true
+			WHERE cod_livro = NEW.cod_livro;
+			
+		RAISE INFO 'Empréstimo registrado.';
+		
+		RETURN NEW;
+	END IF;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_emprestar_livro
+BEFORE INSERT ON emprestimo
+FOR EACH ROW EXECUTE PROCEDURE fc_emprestar_livro();
