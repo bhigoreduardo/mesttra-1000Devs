@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 );
 
 /* Cada aluno pode pegar emprestado no máximo 4 livros por vez; */
+/* Created fc_emprestar_livro */
 CREATE OR REPLACE FUNCTION fc_emprestar_livro() RETURNS TRIGGER AS
 $$
 BEGIN
