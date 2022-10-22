@@ -76,6 +76,11 @@ CREATE TABLE IF NOT EXISTS item_venda (
 	CHECK (valor_unit >= 0)
 );
 
+/* Added Primary Key item_venda */
+ALTER TABLE item_venda
+	ADD CONSTRAINT pk_item_venda
+	PRIMARY KEY (codigo_v, codigo_p);
+
 /* Created Table historico_valor_produto */
 CREATE TABLE IF NOT EXISTS historico_valor_produto (
 	codigo_h SERIAL PRIMARY KEY,
