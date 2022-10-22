@@ -224,11 +224,12 @@ DECLARE
 BEGIN
 	num_parcela = 1;
 	data_vecto = NEW.data_v;
-	valor_parcela = NEW.valor_total / NEW.parcela;
 	
 	IF (NEW.parcela > 0) THEN
 		DELETE FROM pagamento
 			WHERE codigo_v = NEW.codigo_v;
+		
+		valor_parcela = NEW.valor_total / NEW.parcela;
 			
 		WHILE (NEW.parcela >= num_parcela) LOOP
 			data_vecto = data_vecto + INTERVAL'1 month';
@@ -243,6 +244,8 @@ BEGIN
 		
 		RAISE INFO 'Parcelas geradas.';
 	END IF;
+	
+	RETURN NULL;
 END;
 $$
 LANGUAGE plpgsql;
