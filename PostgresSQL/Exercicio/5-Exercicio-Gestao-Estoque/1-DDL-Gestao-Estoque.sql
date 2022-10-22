@@ -292,7 +292,7 @@ CREATE OR REPLACE FUNCTION fc_excluir_item_venda() RETURNS TRIGGER AS
 $$
 BEGIN
 	UPDATE venda
-		SET valor_total = valot_total - (OLD.quantidade * OLD.valor_unit)
+		SET valor_total = valor_total - (OLD.quantidade * OLD.valor_unit)
 		WHERE codigo_v = OLD.codigo_v;
 		
 	UPDATE produto
@@ -300,6 +300,8 @@ BEGIN
 		WHERE codigo_p = OLD.codigo_p;
 		
 	RAISE INFO 'Estoque e fatura de venda atualizados.';
+	
+	RETURN OLD;
 END;
 $$
 LANGUAGE plpgsql;
