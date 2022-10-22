@@ -28,3 +28,21 @@ INSERT INTO livro
 	('Naruto', 3),
 	('Pokemón', 4),
 	('Jujutsu Kaisen', 5);
+
+/* Insert emprestimo */
+INSERT INTO emprestimo
+	(cod_livro, matricula)
+	VALUES
+	(1, 1);
+	
+INSERT INTO emprestimo
+	(cod_livro, matricula)
+	VALUES
+	(2, 1),
+	(3, 1),
+	(4, 1);
+	
+INSERT INTO emprestimo
+	(cod_livro, matricula)
+	VALUES
+	(5, 2);
