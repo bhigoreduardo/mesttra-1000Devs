@@ -83,6 +83,19 @@ SELECT matricula, CONCAT(nome, ' ', sobrenome) AS aluno, endereco
 	WHERE quant_livro > 3;
 
 /*
+d) 	Crie consultas para mostrar o autor com maior quantidade de livros e o que tem a menor quantidade.
+*/
+SELECT CONCAT(a.nome, ' ', a.sobrenome) AS "autor", COUNT(l.titulo) AS quantidade
+	FROM autor a INNER JOIN livro l
+		ON a.cod_autor = l.cod_autor
+	GROUP BY "autor" ORDER BY quantidade DESC LIMIT 1
+
+SELECT CONCAT(a.nome, ' ', a.sobrenome) AS "autor", COUNT(l.titulo) AS quantidade
+	FROM autor a INNER JOIN livro l
+		ON a.cod_autor = l.cod_autor
+	GROUP BY "autor" ORDER BY quantidade ASC LIMIT 1
+
+/*
 e)	Crie uma consulta que traga o nome, sobrenome e a data de nascimento de
 todos os alunos ordenados por data de nascimento do mais novo para o mais velho.
 */
@@ -98,3 +111,60 @@ UPDATE aluno
 	SET endereco = 'RUA A, Nº 1'
 	WHERE nome = 'Metal'
 		AND sobrenome = 'Bat';
+
+
+/*
+g)	Crie uma consulta para retornar a quantidade de livros emprestados no mês de Outubro de 2022.
+*/
+SELECT l.titulo, e.data
+	FROM livro l INNER JOIN emprestimo e
+		ON l.cod_livro = e.cod_livro
+	WHERE TO_CHAR(e.data, 'MM/YYYY') = '10/2022';
+
+/*
+h)	Crie uma consulta que traga o nome dos livros emprestados no ano de 2022 e quantas vezes cada um foi emprestado.
+*/
+SELECT l.titulo, COUNT(e.cod_livro)
+	FROM livro l INNER JOIN emprestimo e
+		ON l.cod_livro = e.cod_livro
+	WHERE TO_CHAR(e.data, 'YYYY') = '2022'
+	GROUP BY l.titulo;
+
+/*
+i)	Escreva o comando para atualizar o título do livro de: “Naruto” para “Naruto Shippuden”.
+*/
+UPDATE livro
+	SET titulo = 'Naruto Shippuden'
+	WHERE titulo = 'Naruto';
+
+/*
+j)    Crie uma VIEW nomeada “LIVROS_AUTOR_EMPRESTADOS” que traga o nome do livro,
+o nome e sobrenome do autor, o genero do autor e a data de nascimento do autor
+para todos os livros emprestados.
+*/
+CREATE VIEW vw_livro_autor_emprestado AS
+	SELECT CONCAT(a.nome, ' ', a.sobrenome) AS autor, a.genero, a.data_nasc, l.titulo
+		FROM autor a INNER JOIN livro l
+			ON a.cod_autor = l.cod_autor
+		WHERE l.status_emp = true;
+		
+SELECT * FROM vw_livro_autor_emprestado;
+
+/* Exportar dados DML para CSV */
+COPY aluno TO 'C:\bkp_aluno.csv' (DELIMITER ';', FORMAT CSV, NULL '',
+								  ENCODING 'UTF-8', HEADER);
+
+COPY
+	( SELECT CONCAT(a.nome, ' ', a.sobrenome) AS aluno,
+	  l.titulo AS livro
+	  FROM aluno a INNER JOIN emprestimo e
+	  	ON a.matricula = e.matricula INNER JOIN livro l
+	 	ON l.cod_livro = e.cod_livro
+	)
+TO 'C:\bkp_emprestimo.csv' (DELIMITER ';', FORMAT CSV, NULL '',
+								  ENCODING 'UTF-8', HEADER);
+
+/* Importar dados CSV para DML */
+COPY aluno (matricula, nome, sobrenome, endereco, genero, data_nasc, quant_livro) FROM
+'C:\bkp_aluno.csv' (DELIMITER ';', FORMAT CSV, NULL '',
+					ENCODING 'UTF-8', HEADER);
