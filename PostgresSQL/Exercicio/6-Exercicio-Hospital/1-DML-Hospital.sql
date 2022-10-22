@@ -14,3 +14,10 @@ CREATE TABLE IF NOT EXISTS enfermidade (
 	cod_enf INTEGER PRIMARY KEY,
 	descricao VARCHAR(40) NOT NULL
 );
+
+/* Created Table quarto */
+CREATE TABLE IF NOT EXISTS quarto (
+	cod_quart INTEGER PRIMARY KEY,
+	numero INTEGER NOT NULL,
+	andar INTEGER NOT NULL
+);
