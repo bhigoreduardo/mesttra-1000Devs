@@ -46,3 +46,8 @@ INSERT INTO emprestimo
 	(cod_livro, matricula)
 	VALUES
 	(5, 2);
+
+/* Update emprestimo */
+UPDATE emprestimo
+	SET devolucao = true
+	WHERE cod_emprestimo = 1;

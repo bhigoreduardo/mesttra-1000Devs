@@ -89,3 +89,37 @@ LANGUAGE plpgsql;
 CREATE TRIGGER tr_emprestar_livro
 BEFORE INSERT ON emprestimo
 FOR EACH ROW EXECUTE PROCEDURE fc_emprestar_livro();
+
+/*
+A cada novo empréstimo, o status do empréstimo no livro deve ser alterado para verdadeiro,
+e quando o mesmo for devolvido, deve retornar para falso, além de acrescentar ou diminuir
+a quantidade de livros em posse do aluno.
+*/
+/* Created fc_devolver_livro */
+CREATE OR REPLACE FUNCTION fc_devolver_livro() RETURNS TRIGGER AS
+$$
+BEGIN
+	-- Verificar devolucao
+	IF ( ( SELECT devolucao
+		   FROM emprestimo
+		   WHERE cod_emprestimo = NEW.cod_emprestimo ) != false ) THEN
+		-- Alterar status livro para falso
+		UPDATE livro
+			SET status_emp = false
+			WHERE cod_livro = OLD.cod_livro;
+		-- Diminuir quantidade livro aluno
+		UPDATE aluno
+			SET quant_livro = quant_livro - 1
+			WHERE matricula = OLD.matricula;
+			
+		RAISE INFO 'Empréstimo devolvido.';
+	END IF;
+	
+	RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_devolver_livro
+AFTER UPDATE ON emprestimo
+FOR EACH ROW EXECUTE PROCEDURE fc_devolver_livro();
