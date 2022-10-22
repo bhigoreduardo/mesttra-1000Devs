@@ -45,3 +45,11 @@ CREATE TABLE IF NOT EXISTS paciente (
 	cod_quart INTEGER REFERENCES quarto(cod_quart),
 	cod_medico INTEGER REFERENCES medico(cod_medico)
 );
+
+/* Created Table enfermidade-paciente */
+CREATE TABLE IF NOT EXISTS enfermidade_paciente (
+	cod_enf_paciente INTEGER PRIMARY KEY,
+	cod_paciente INTEGER REFERENCES paciente(cod_paciente),
+	cod_enf INTEGER REFERENCES enfermidade(cod_enf),
+	data_ep DATE NOT NULL
+);
