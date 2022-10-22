@@ -33,3 +33,15 @@ CREATE TABLE IF NOT EXISTS medico (
 	especialidade VARCHAR(60) NOT NULL,
 	salario NUMERIC(9,2) NOT NULL
 );
+
+/* Created Table paciente */
+CREATE TABLE IF NOT EXISTS paciente (
+	cod_paciente INTEGER PRIMARY KEY,
+	nome VARCHAR(60) NOT NULL,
+	sobrenome VARCHAR(60) NOT NULL,
+	endereco VARCHAR(100),
+	genero VARCHAR(1), 
+	data_nasc DATE NOT NULL,
+	cod_quart INTEGER REFERENCES quarto(cod_quart),
+	cod_medico INTEGER REFERENCES medico(cod_medico)
+);
