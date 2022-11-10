@@ -29,7 +29,7 @@ public class Gerente {
 
 	private int pesquisarCliente(String numeroConta, Pessoa[] clientes) {
 		for (int i = 0; i < clientes.length; i++) {
-			if (clientes[i].getNumeroConta() == numeroConta) {
+			if (clientes[i].getNumeroConta().equals(numeroConta)) {
 				return i;
 			}
 		}
@@ -38,9 +38,8 @@ public class Gerente {
 	}
 
 	public Pessoa[] removerCliente(String numeroConta, Pessoa[] clientes) {
-
+		
 		int index = pesquisarCliente(numeroConta, clientes);
-		System.out.println(index);
 
 		if (index > -1) {
 			Pessoa[] clientesRemocao = new Pessoa[clientes.length];
@@ -74,7 +73,7 @@ public class Gerente {
 	public Pessoa[] alterarLimiteChequeEspecial(String numeroConta, Pessoa[] clientes, String codicao) {
 		int index = pesquisarCliente(numeroConta, clientes);
 
-		if (index >= 0) {
+		if (index > - 1) {
 			BigDecimal valorAtual = clientes[index].getLimiteChequeEspecial();
 			BigDecimal limite = new BigDecimal("100");
 
@@ -85,11 +84,14 @@ public class Gerente {
 			}
 
 			clientes[index].setLimiteChequeEspecial(valorAtual);
+			
+			return clientes;
 		}
 
-		return clientes;
+		return null;
 	}
 
+	// Cansei aqui :-P
 	public Pessoa[] tranferirSaldo(String contaOrigem, String contaDestino, BigDecimal valorTransferencia,
 			Pessoa[] clientes) {
 		int indexOrigem = pesquisarCliente(contaOrigem, clientes);

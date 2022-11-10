@@ -177,7 +177,7 @@ public class Main {
 				if (clientesCadastrado != null) {
 					clientes = clientesCadastrado;
 					insertClientMessage(clientes);
-					
+
 					System.out.println(clientes[0].getNumeroConta());
 				}
 
@@ -213,10 +213,43 @@ public class Main {
 				}
 
 				System.out.println("\t\tInforme o Numero da Conta do Cliente");
-				System.out.print("\t\t->");
+				System.out.print("\t\t-> ");
 				numeroConta = input.nextLine();
 
 				gerente.consultarCliente(numeroConta, clientes);
+
+				break;
+
+			case "4":
+
+				if (clientes[0] == null) {
+					System.out.println("\t\tNenhum cliente cadastrado!");
+					break;
+				}
+
+				System.out.println("\t\tInforme o Numero da Conta do Cliente");
+				System.out.print("\t\t-> ");
+				numeroConta = input.nextLine();
+
+				System.out.println("\t\tInforme a Acao Desejada:");
+				System.out.println("\t\t[ 1 ] - Aumentar Limite em 100");
+				System.out.println("\t\t[ 2 ] - Diminuir Limite em 100");
+				System.out.print("\t\t-> ");
+				String condicao = input.nextLine();
+
+				if (!(condicao.equals("1") || condicao.equals("2"))) {
+					System.out.println("\t\tTipo de acao invalido");
+					break;
+				}
+
+				Pessoa[] clientesLimite = gerente.alterarLimiteChequeEspecial(numeroConta, clientes, condicao);
+
+				if (clientesLimite != null) {
+					clientes = clientesLimite;
+					System.out.printf("\t\tCliente Numero Conta: %s Limite Alterado com Sucesso!\n", numeroConta);
+				} else {
+					System.out.println("\t\tCliente informado nao encontrado!");
+				}
 
 				break;
 
