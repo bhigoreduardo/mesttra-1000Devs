@@ -38,7 +38,7 @@ public class Gerente {
 	}
 
 	public Pessoa[] removerCliente(String numeroConta, Pessoa[] clientes) {
-		
+
 		int index = pesquisarCliente(numeroConta, clientes);
 
 		if (index > -1) {
@@ -70,28 +70,25 @@ public class Gerente {
 		}
 	}
 
-	public Pessoa[] alterarLimiteChequeEspecial(String numeroConta, Pessoa[] clientes, String codicao) {
+	public Pessoa[] alterarLimiteChequeEspecial(String numeroConta, Pessoa[] clientes, String condicao) {
 		int index = pesquisarCliente(numeroConta, clientes);
 
-		if (index > - 1) {
+		if (index > -1) {
 			BigDecimal valorAtual = clientes[index].getLimiteChequeEspecial();
 			BigDecimal limite = new BigDecimal("100");
 
-			if (codicao == "Aumentar") {
-				valorAtual.add(limite);
+			if (condicao.equals("Aumentar")) {
+				clientes[index].setLimiteChequeEspecial(valorAtual.add(limite));
 			} else {
-				valorAtual.subtract(limite);
+				clientes[index].setLimiteChequeEspecial(valorAtual.subtract(limite));
 			}
 
-			clientes[index].setLimiteChequeEspecial(valorAtual);
-			
 			return clientes;
 		}
 
 		return null;
 	}
 
-	// Cansei aqui :-P
 	public Pessoa[] tranferirSaldo(String contaOrigem, String contaDestino, BigDecimal valorTransferencia,
 			Pessoa[] clientes) {
 		int indexOrigem = pesquisarCliente(contaOrigem, clientes);
@@ -104,10 +101,16 @@ public class Gerente {
 			if (saldoOrigem.compareTo(valorTransferencia) == 1) {
 				clientes[indexOrigem].setSaldo(saldoOrigem.subtract(valorTransferencia));
 				clientes[indexDestino].setSaldo(saldoDestino.add(valorTransferencia));
+
+				return clientes;
+			} else {
+				System.out.println("\t\tSaldo Insuficientes da Conta de Origem.");
 			}
+		} else {
+			System.out.println("\t\tUma das Contas nao foi Encontrada.");
 		}
 
-		return clientes;
+		return null;
 	}
 
 	public Pessoa[] adicionarSaldo(String contaNumero, BigDecimal deposito, Pessoa[] clientes) {
@@ -115,17 +118,20 @@ public class Gerente {
 
 		if (index > -1 && deposito.compareTo(BigDecimal.ZERO) == 1) {
 			BigDecimal saldo = clientes[index].getSaldo();
-			saldo.add(deposito);
 
-			clientes[index].setSaldo(saldo);
+			clientes[index].setSaldo(saldo.add(deposito));
+
+			return clientes;
 		}
 
-		return clientes;
+		return null;
 	}
 
 	public void visualizarClientes(Pessoa[] clientes) {
 		for (Pessoa cliente : clientes) {
-			System.out.println(cliente.toString());
+			if (cliente != null) {
+				System.out.println(cliente.toString());
+			}
 		}
 	}
 

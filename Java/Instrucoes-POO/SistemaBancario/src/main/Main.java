@@ -177,8 +177,6 @@ public class Main {
 				if (clientesCadastrado != null) {
 					clientes = clientesCadastrado;
 					insertClientMessage(clientes);
-
-					System.out.println(clientes[0].getNumeroConta());
 				}
 
 				break;
@@ -240,6 +238,9 @@ public class Main {
 				if (!(condicao.equals("1") || condicao.equals("2"))) {
 					System.out.println("\t\tTipo de acao invalido");
 					break;
+				} else {
+					condicao = condicao.equals("1") ? "Aumentar" : "Diminuir";
+					System.out.println(condicao);
 				}
 
 				Pessoa[] clientesLimite = gerente.alterarLimiteChequeEspecial(numeroConta, clientes, condicao);
@@ -247,52 +248,85 @@ public class Main {
 				if (clientesLimite != null) {
 					clientes = clientesLimite;
 					System.out.printf("\t\tCliente Numero Conta: %s Limite Alterado com Sucesso!\n", numeroConta);
+
+					System.out.println(clientes[0].toString());
 				} else {
 					System.out.println("\t\tCliente informado nao encontrado!");
 				}
 
 				break;
 
+			case "5":
+
+				if (clientes[1] == null) {
+					System.out.println("\t\tNecessario ao minimo dois clientes cadastrados!");
+					break;
+				}
+
+				System.out.println("\t\tInforme o Numero da Conta do Cliente de Origem");
+				System.out.print("\t\t-> ");
+				String numeroContaOrigem = input.nextLine();
+
+				System.out.println("\t\tInforme o Numero da Conta do Cliente de Destino");
+				System.out.print("\t\t-> ");
+				String numeroContaDestino = input.nextLine();
+
+				System.out.println("\t\tInforme o Numero da Conta do Cliente de Destino");
+				System.out.print("\t\t-> ");
+				BigDecimal valorTransferencia = new BigDecimal(input.nextLine());
+
+				Pessoa[] clientesTransferencia = gerente.tranferirSaldo(numeroContaOrigem, numeroContaDestino,
+						valorTransferencia, clientes);
+
+				if (clientesTransferencia != null) {
+					clientes = clientesTransferencia;
+					System.out.println("\t\tTransferencia Realizada com Sucesso!");
+				}
+
+				break;
+
+			case "6":
+
+				if (clientes[0] == null) {
+					System.out.println("\t\tNenhum cliente cadastrado!");
+					break;
+				}
+
+				System.out.println("\t\tInforme o Numero da Conta do Cliente:");
+				System.out.print("\t\t-> ");
+				numeroConta = input.nextLine();
+
+				System.out.println("\t\tInforme o Valor do Deposito:");
+				System.out.print("\t\t-> ");
+				BigDecimal valorDeposito = new BigDecimal(input.nextLine());
+
+				Pessoa[] clientesDeposito = gerente.adicionarSaldo(numeroConta, valorDeposito, clientes);
+
+				if (clientesDeposito == null) {
+					System.out.println("\t\tCliente nao Encontrado ou Saldo Inferior a ZERO");
+				} else {
+					clientes = clientesDeposito;
+					System.out.println("\t\tDeposito Realizado com Sucesso!");
+				}
+
+				break;
+
+			case "7":
+
+				if (clientes[0] == null) {
+					System.out.println("\t\tNenhum cliente cadastrado!");
+					break;
+				}
+
+				gerente.visualizarClientes(clientes);
+
+				break;
+
+			default:
+				System.out.println("\t\tEscolha Invalida.");
 			}
 		}
 
-	}
-
-	private static void menu() {
-		Scanner input = new Scanner(System.in);
-
-		System.out.print("Telefone: ");
-		String telefone = input.next();
-
-		System.out.print("Saldo");
-		double saldo = input.nextDouble();
-
-		System.out.print("O cliente vai ser PJ ou PF? ");
-		String cliente = input.next();
-
-		if (cliente.equals("PF")) {
-			System.out.print("Nome do Cliente: ");
-			String nome = input.next();
-
-			System.out.print("CPF do cliente? ");
-			String CPF = input.next();
-
-			System.out.print("Idade do cliente: ");
-			int idade = input.nextInt();
-		} else {
-			System.out.print("CNPJ do cliente");
-			String CNPJ = input.next();
-
-			System.out.print("Número de sócios(até 3):");
-			int NSocios = input.nextInt();
-			for (int i = 0; i <= NSocios; i++) {
-				System.out.print("Nomes dos sócios: ");
-				String socios = input.next();
-			}
-		}
-
-		System.out.print("Limite do cheque especial: ");
-		double limite = input.nextDouble();
 	}
 
 }
