@@ -46,8 +46,11 @@ public class PessoaJuridica extends Pessoa {
 
 	@Override
 	public String toString() {
-		return "PessoaJuridica [cnpj=" + cnpj + ", socios=" + Arrays.toString(socios) + ", nomeFantasia=" + nomeFantasia
-				+ ", toString()=" + super.toString() + "]";
+		return  "\t\tCliente PJ:\n" +
+				"\t\tCNPJ do Cliente: " + cnpj + "\n" +
+				"\t\tSocios do Cliente: " + Arrays.toString(socios) + "\n" +
+				"\t\tNome Fantasia: " + nomeFantasia + "\n" +
+				super.toString();
 	}
 
 }

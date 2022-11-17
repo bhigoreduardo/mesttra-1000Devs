@@ -63,8 +63,11 @@ public abstract class Pessoa {
 
 	@Override
 	public String toString() {
-		return "Pessoa [numeroConta=" + numeroConta + ", agencia=" + agencia + ", telefone=" + telefone + ", saldo="
-				+ saldo + ", limiteChequeEspecial=" + limiteChequeEspecial + "]";
+		return	"\t\tNumero da Conta: " + numeroConta + "\n" +
+				"\t\tNumero da Agencia: " + agencia + "\n" +
+				"\t\tNumero do Telefone: " + telefone + "\n" +
+				"\t\tTotal do Saldo: " + saldo + "\n" +
+				"\t\tLimite do Cheque Especial: " + limiteChequeEspecial + "\n";
 	}
 
 }
