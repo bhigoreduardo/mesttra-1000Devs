@@ -9,9 +9,9 @@ public class Cidade {
 	private Boolean capital = Boolean.FALSE;
 	private String estado;
 	private String prefeito;
-	
+
 	public Cidade() {
-		
+
 	}
 
 	public Cidade(Integer ddd, String nome, Integer numeroHabitantes, Double rendaPerCapita, String estado,
@@ -82,8 +82,8 @@ public class Cidade {
 
 	@Override
 	public String toString() {
-		return "Cidade [ddd=" + ddd + ", nome=" + nome + ", numeroHabitantes=" + numeroHabitantes + ", rendaPerCapita="
-				+ rendaPerCapita + ", capital=" + capital + ", estado=" + estado + ", prefeito=" + prefeito + "]";
+		return "\t\t" + ddd + " \t\t" + nome + " \t\t" + numeroHabitantes + " \t\t" + rendaPerCapita + " \t\t" + capital
+				+ " \t\t" + estado + " \t\t" + prefeito;
 	}
 
 }
