@@ -32,7 +32,7 @@ public class Main {
 		System.out.println("\t\t" + message);
 	}
 
-	private static boolean cadastrarCidade(Scanner input, CidadeDAO cidadeDAO) {
+	private static boolean save(Scanner input, CidadeDAO cidadeDAO) {
 		System.out.println("\t\tCADASTRAR CIDADE:");
 		System.out.println("\t\t***********************************************");
 		Integer ddd;
@@ -83,10 +83,10 @@ public class Main {
 			cidade.setCapital(true);
 		}
 
-		return cidadeDAO.insertInto(cidade);
+		return cidadeDAO.save(cidade);
 	}
 
-	private static boolean removerCidade(Scanner input, CidadeDAO cidadeDAO) {
+	private static boolean deleteByDdd(Scanner input, CidadeDAO cidadeDAO) {
 		System.out.println("\t\tREMOVER CIDADE:");
 		System.out.println("\t\t***********************************************");
 		Integer ddd;
@@ -103,10 +103,10 @@ public class Main {
 			}
 		}
 
-		return cidadeDAO.delete(ddd);
+		return cidadeDAO.deleteByDdd(ddd);
 	}
 
-	private static void consultarCidade(Scanner input, CidadeDAO cidadeDAO) {
+	private static void selectByDdd(Scanner input, CidadeDAO cidadeDAO) {
 		System.out.println("\t\tCONSULTAR CIDADE:");
 		System.out.println("\t\t***********************************************");
 		Cidade cidade;
@@ -128,7 +128,7 @@ public class Main {
 		System.out.println(cidade.toString());
 	}
 
-	private static boolean alterarCidade(Scanner input, CidadeDAO cidadeDAO) {
+	private static boolean update(Scanner input, CidadeDAO cidadeDAO) {
 		System.out.println("\t\tALTERAR CIDADE:");
 		System.out.println("\t\t***********************************************");
 		Cidade cidade;
@@ -185,7 +185,7 @@ public class Main {
 		return cidadeDAO.update(cidade);
 	}
 
-	private static void consultarTodasCidades(CidadeDAO cidadeDAO) {
+	private static void selectAll(CidadeDAO cidadeDAO) {
 		System.out.println("\t\tCONSULTAR TODAS CIDADE:");
 		System.out.println("\t\t***********************************************");
 
@@ -196,6 +196,61 @@ public class Main {
 
 	}
 
+	private static void findByNomeStartingWith(Scanner input, CidadeDAO cidadeDAO) {
+		System.out.println("\t\tInforme o DDD da Cidade:");
+		System.out.print("\t\t-> ");
+		String prefix = input.nextLine();
+		
+		System.out.println("\t\tCONSULTAR TODAS CIDADE INICIA COM: + " + prefix);
+		System.out.println("\t\t***********************************************");
+
+		System.out.println(
+				"\t\tDDD \t\tNome \t\tNumero de Habitantes \t\tRenda Per Capita \t\tisCapital \t\tEstado \t\tPrefeito \n");
+
+		cidadeDAO.findByNomeStartingWith(prefix).forEach(cidade -> System.out.println(cidade.toString()));
+	}
+	
+	private static void findByEstado(Scanner input, CidadeDAO cidadeDAO) {
+		System.out.println("\t\tInforme o Estado da Cidade:");
+		System.out.print("\t\t-> ");
+		String estado = input.nextLine();
+		
+		System.out.println("\t\tCONSULTAR TODAS CIDADE DO ESTADO: + " + estado);
+		System.out.println("\t\t***********************************************");
+
+		System.out.println(
+				"\t\tDDD \t\tNome \t\tNumero de Habitantes \t\tRenda Per Capita \t\tisCapital \t\tEstado \t\tPrefeito \n");
+
+		cidadeDAO.findByEstado(estado).forEach(cidade -> System.out.println(cidade.toString()));
+	}
+	
+	private static void countByEstado(Scanner input, CidadeDAO cidadeDAO) {
+		System.out.println("\t\tInforme o Estado da Cidade:");
+		System.out.print("\t\t-> ");
+		String estado = input.nextLine();
+		
+		System.out.println("\t\tQUANTIDADE DE CIDADE DO ESTADO: + " + estado);
+		System.out.println("\t\t***********************************************");
+
+		System.out.println("\t\t-> " + cidadeDAO.countByEstado(estado));
+	}
+	
+	private static void findByIsCapital(Scanner input, CidadeDAO cidadeDAO) {
+		System.out.println("\t\tA cidade e capital do estado:");
+		System.out.println("\t\t[ 1 ] - SIM");
+		System.out.println("\t\t[ 2 ] - NAO");
+		System.out.print("\t\t-> ");
+		Boolean capital = input.nextLine().equals("1") ? true: false;
+		
+		System.out.println("\t\tCONSULTAR CIDADE:");
+		System.out.println("\t\t***********************************************");
+
+		System.out.println(
+				"\t\tDDD \t\tNome \t\tNumero de Habitantes \t\tRenda Per Capita \t\tisCapital \t\tEstado \t\tPrefeito \n");
+
+		cidadeDAO.findByIsCapital(capital).forEach(cidade -> System.out.println(cidade.toString()));
+	}
+	
 	public static void main(String[] args) {
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
@@ -214,7 +269,7 @@ public class Main {
 
 			switch (operation) {
 			case "1": // Cadastrar Cidade
-				if (cadastrarCidade(input, cidadeDAO)) {
+				if (save(input, cidadeDAO)) {
 					userMessage("Cidade cadastrada com sucesso!");
 				} else {
 					userMessage("Falha no cadastrado da cidade!");
@@ -222,7 +277,7 @@ public class Main {
 				break;
 
 			case "2": // Remover Cidade
-				if (removerCidade(input, cidadeDAO)) {
+				if (deleteByDdd(input, cidadeDAO)) {
 					userMessage("Cidade removida com sucesso!");
 				} else {
 					userMessage("Falha na remocao da cidade!");
@@ -230,11 +285,11 @@ public class Main {
 				break;
 
 			case "3": // Consultar Cidade
-				consultarCidade(input, cidadeDAO);
+				selectByDdd(input, cidadeDAO);
 				break;
 
 			case "4": // Alterar Cidade
-				if (alterarCidade(input, cidadeDAO)) {
+				if (update(input, cidadeDAO)) {
 					userMessage("Cidade alterada com sucesso!");
 				} else {
 					userMessage("Falha na atualizacao da cidade!");
@@ -242,7 +297,23 @@ public class Main {
 				break;
 
 			case "5": // Consultar Todas Cidades
-				consultarTodasCidades(cidadeDAO);
+				selectAll(cidadeDAO);
+				break;
+				
+			case "6": // Consultar Cidades com Prefixo
+				findByNomeStartingWith(input, cidadeDAO);
+				break;
+				
+			case "7": // Consultar Cidades por Estado
+				findByEstado(input, cidadeDAO);
+				break;
+				
+			case "8": // Quantidade Cidade por Estado
+				countByEstado(input, cidadeDAO);
+				break;
+				
+			case "9": // Cidade Capital
+				findByIsCapital(input, cidadeDAO);
 				break;
 
 			default:

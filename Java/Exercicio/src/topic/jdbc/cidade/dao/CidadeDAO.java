@@ -1,5 +1,8 @@
 package topic.jdbc.cidade.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +14,40 @@ public class CidadeDAO extends ConnectionFactory {
 	private static String query;
 	private static Boolean status;
 
-	public boolean insertInto(final Cidade cidade) {
+	private void setParameter(PreparedStatement statement, Cidade cidade) {
+		try {
+			statement.setInt(1, cidade.getDdd());
+			statement.setString(2, cidade.getNome());
+			statement.setInt(3, cidade.getNumeroHabitantes());
+			statement.setDouble(4, cidade.getRendaPerCapita());
+			statement.setBoolean(5, cidade.getCapital());
+			statement.setString(6, cidade.getEstado());
+			statement.setString(7, cidade.getPrefeito());
+		} catch (SQLException ex) {
+			throw new RuntimeException("Falha na requisição." + ex.getMessage());
+		}
+	}
+
+	private void getParameter(ResultSet resultSet, List<Cidade> cidades) {
+		try {
+			while (resultSet.next()) {
+				Cidade cidade = new Cidade();
+				cidade.setDdd(resultSet.getInt("ddd"));
+				cidade.setNome(resultSet.getString("nome"));
+				cidade.setNumeroHabitantes(resultSet.getInt("numero_habitantes"));
+				cidade.setRendaPerCapita(resultSet.getDouble("renda_per_capita"));
+				cidade.setCapital(resultSet.getBoolean("capital"));
+				cidade.setEstado(resultSet.getString("estado"));
+				cidade.setPrefeito(resultSet.getString("prefeito"));
+
+				cidades.add(cidade);
+			}
+		} catch (SQLException ex) {
+			throw new RuntimeException("Falha na requisição." + ex.getMessage());
+		}
+	}
+
+	public boolean save(Cidade cidade) {
 		status = false;
 		query = "INSERT INTO cidade " + "(ddd, nome, numero_habitantes, renda_per_capita, capital, estado, prefeito) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -20,13 +56,7 @@ public class CidadeDAO extends ConnectionFactory {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.prepareStatement(query);
 
-			statement.setInt(1, cidade.getDdd());
-			statement.setString(2, cidade.getNome());
-			statement.setInt(3, cidade.getNumeroHabitantes());
-			statement.setDouble(4, cidade.getRendaPerCapita());
-			statement.setBoolean(5, cidade.getCapital());
-			statement.setString(6, cidade.getEstado());
-			statement.setString(7, cidade.getPrefeito());
+			setParameter(statement, cidade);
 			statement.execute();
 			status = true;
 		} catch (Exception ex) {
@@ -49,18 +79,7 @@ public class CidadeDAO extends ConnectionFactory {
 			statement = connection.prepareStatement(query);
 			resultSet = statement.executeQuery();
 
-			while (resultSet.next()) {
-				Cidade cidade = new Cidade();
-				cidade.setDdd(resultSet.getInt("ddd"));
-				cidade.setNome(resultSet.getString("nome"));
-				cidade.setNumeroHabitantes(resultSet.getInt("numero_habitantes"));
-				cidade.setRendaPerCapita(resultSet.getDouble("renda_per_capita"));
-				cidade.setCapital(resultSet.getBoolean("capital"));
-				cidade.setEstado(resultSet.getString("estado"));
-				cidade.setPrefeito(resultSet.getString("prefeito"));
-
-				cidades.add(cidade);
-			}
+			getParameter(resultSet, cidades);
 		} catch (Exception ex) {
 			throw new RuntimeException("Falha na consulta das cidades." + ex.getMessage());
 		} finally {
@@ -109,13 +128,7 @@ public class CidadeDAO extends ConnectionFactory {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.prepareStatement(query);
 
-			statement.setString(1, cidade.getNome());
-			statement.setInt(2, cidade.getNumeroHabitantes());
-			statement.setDouble(3, cidade.getRendaPerCapita());
-			statement.setBoolean(4, cidade.getCapital());
-			statement.setString(5, cidade.getEstado());
-			statement.setString(6, cidade.getPrefeito());
-			statement.setInt(7, cidade.getDdd());
+			setParameter(statement, cidade);
 			statement.execute();
 
 			status = true;
@@ -129,7 +142,7 @@ public class CidadeDAO extends ConnectionFactory {
 		return status;
 	}
 
-	public boolean delete(Integer ddd) {
+	public boolean deleteByDdd(Integer ddd) {
 		status = false;
 		query = "DELETE FROM cidade WHERE ddd=?";
 
@@ -151,4 +164,91 @@ public class CidadeDAO extends ConnectionFactory {
 		return status;
 	}
 
+	public List<Cidade> findByNomeStartingWith(String prefix) {
+		query = "SELECT * FROM cidade WHERE nome LIKE ?";
+
+		List<Cidade> cidades = new ArrayList<>();
+
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement(query);
+
+			statement.setString(1, prefix + "%");
+			resultSet = statement.executeQuery();
+
+			getParameter(resultSet, cidades);
+		} catch (Exception ex) {
+			throw new RuntimeException("Falha na consulta das cidades." + ex.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+
+		return cidades;
+	}
+
+	public List<Cidade> findByEstado(String estado) {
+		query = "SELECT * FROM cidade WHERE nome estado=?";
+
+		List<Cidade> cidades = new ArrayList<>();
+
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement(query);
+
+			statement.setString(1, estado);
+			resultSet = statement.executeQuery();
+
+			getParameter(resultSet, cidades);
+		} catch (Exception ex) {
+			throw new RuntimeException("Falha na consulta das cidades." + ex.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+
+		return cidades;
+	}
+
+	public int countByEstado(String estado) {
+		// query = "SELECT count(*) FROM cidade WHERE nome estado=?";
+		query = "SELECT count(*) AS quantidade_cidade FROM cidade WHERE nome estado=?";
+
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement(query);
+
+			statement.setString(1, estado);
+			resultSet = statement.executeQuery();
+
+			// return resultSet.getInt(0);
+			return resultSet.getInt("quantidade_cidade");
+		} catch (Exception ex) {
+			throw new RuntimeException("Falha na consulta das cidades." + ex.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+
+	}
+
+	public List<Cidade> findByIsCapital(Boolean capital) {
+		query = "SELECT * FROM cidade WHERE capital IS ?";
+
+		List<Cidade> cidades = new ArrayList<>();
+
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.prepareStatement(query);
+
+			statement.setBoolean(1, capital);
+			resultSet = statement.executeQuery();
+
+			getParameter(resultSet, cidades);
+		} catch (Exception ex) {
+			throw new RuntimeException("Falha na consulta das cidades." + ex.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+
+		return cidades;
+	}
+	
 }
