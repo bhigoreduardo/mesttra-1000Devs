@@ -3,8 +3,6 @@ package main;
 import java.util.Scanner;
 
 import domain.models.Gerente;
-import domain.models.Log;
-import domain.models.Pessoa;
 
 public class Main {
 
@@ -32,19 +30,13 @@ public class Main {
 		System.out.print("\t\t-> ");
 	}
 
-	private static void showLogs(Log[] logs) {
-		for (int i = 0; i < logs.length; i++) {
-			if (logs[i] != null) {
-				System.out.println(logs[i].toString());
-			}
-		}
+	private static void message(String message) {
+		System.out.println("\t\t" + message);
 	}
-	
+
 	public static void main(String[] args) {
 
 		Scanner input = new Scanner(System.in);
-		Pessoa clientes[] = new Pessoa[50];
-		Log logs[] = new Log[50];
 
 		helloWorld();
 		Gerente gerente = new Gerente(input.nextLine());
@@ -62,74 +54,63 @@ public class Main {
 			case "1": // Cadastrar Cliente
 
 				if (gerente.cadastrarCliente(input)) {
-					System.out.println("Cadastrado");
+					message("Cliente cadastrado com sucesso!");
+				} else {
+					message("Falha no cadastrado do cliente.");
 				}
 
 				break;
 
 			case "2": // Remover Cliente
 
-				Pessoa[] clientesRemocao = gerente.removerCliente(clientes, input, logs);
-
-				if (clientesRemocao != null) {
-					clientes = clientesRemocao;
+				if (gerente.removerCliente(input)) {
+					message("Cliente removido com sucesso!");
+				} else {
+					message("Falha na exclusão do cliente.");
 				}
 
 				break;
 
 			case "3": // Consultar Cliente
 
-				gerente.consultarCliente(clientes, input);
+				gerente.consultarCliente(input);
 				break;
 
 			case "4": // Alterar Limite
 
-				Pessoa[] clientesLimite = gerente.alterarLimiteChequeEspecial(clientes, input, logs);
-
-				if (clientesLimite != null) {
-					clientes = clientesLimite;
+				if (gerente.alterarLimiteChequeEspecial(input)) {
+					message("Limite atualizado com sucesso!");
+				} else {
+					message("Falha na atualização do limite.");
 				}
 
 				break;
 
 			case "5": // Transferir Saldo
 
-				Pessoa[] clientesTransferencia = gerente.tranferirSaldo(clientes, input, logs);
-
-				if (clientesTransferencia != null) {
-					clientes = clientesTransferencia;
+				if (gerente.tranferirSaldo(input)) {
+					message("Transferência realizada com sucesso!");
+				} else {
+					message("Falha na transferência.");
 				}
 
 				break;
 
 			case "6": // Adicionar Saldo
 
-				Pessoa[] clientesDeposito = gerente.adicionarSaldo(clientes, input, logs);
-
-				if (clientesDeposito != null) {
-					clientes = clientesDeposito;
+				if (gerente.adicionarSaldo(input)) {
+					message("Depósito realizado com sucesso!");
+				} else {
+					message("Falha no depósito.");
 				}
 
 				break;
 
 			case "7": // Visualizar Clientes
 
-				gerente.visualizarClientes(clientes);
+				gerente.visualizarClientes();
 				break;
 
-			case "8": // Visualizar Logs
-				
-				System.out.println("\t\tVISUALIZAR LOG DO DIA:");
-				System.out.println("\t\t***********************************************");
-
-				if (clientes[0] == null) {
-					System.err.println("\t\tNenhum cliente cadastrado na base de dados.");
-					break;
-				}
-				
-				showLogs(logs);
-				break;
-				
 			default:
 				System.err.println("\t\tOpcao invalida, tente novamente.");
 			}
