@@ -3,6 +3,7 @@ package domain.models;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import dao.LogDAO;
 import dao.PessoaDAO;
 
 public class Gerente {
@@ -27,11 +28,16 @@ public class Gerente {
 		return new PessoaJuridica(numeroConta, agencia, telefone, saldo, limiteChequeEspecial, cnpj, socios,
 				nomeFantasia);
 	}
-
+	
 	public Boolean cadastrarCliente(Scanner input) {
 
 		PessoaDAO pessoaDAO = new PessoaDAO();
+		LogDAO logDAO = new LogDAO();
 		String tipoCliente;
+		Boolean status = false;
+		Log log = new Log();
+
+		log.setOperacao("Cadastro conta");
 
 		System.out.println("\t\tCADASTRAR CLIENTE:");
 		System.out.println("\t\t***********************************************");
@@ -90,7 +96,14 @@ public class Gerente {
 			PessoaFisica pessoaFisica = cadastrarPessoaFisica(numeroConta, agencia, telefone, saldo,
 					limiteChequeEspecial, nome, cpf, idade);
 
-			return pessoaDAO.savePessoaFisica(pessoaFisica);
+			status = pessoaDAO.savePessoaFisica(pessoaFisica);
+
+			if (status) {
+				log.setNumeroContaOrigem(numeroConta);
+				logDAO.save(log);
+			}
+
+			break;
 		case "2":
 			System.out.println("\t\tInforme o CNPJ do Cliente:");
 			System.out.print("\t\t-> ");
@@ -115,14 +128,29 @@ public class Gerente {
 			PessoaJuridica pessoaJuridica = cadastrarPessoaJuridica(numeroConta, agencia, telefone, saldo,
 					limiteChequeEspecial, cnpj, socios, nomeFantasia);
 
-			return pessoaDAO.savePessoaJuridica(pessoaJuridica);
+			status = pessoaDAO.savePessoaJuridica(pessoaJuridica);
+
+			if (status) {
+				log.setNumeroContaOrigem(numeroConta);
+				logDAO.save(log);
+			}
+
+			break;
 		}
 
-		return false;
+		return status;
 
 	}
 
 	public Boolean removerCliente(Scanner input) {
+
+		PessoaDAO pessoaDAO = new PessoaDAO();
+		LogDAO logDAO = new LogDAO();
+
+		Boolean status = false;
+		Log log = new Log();
+
+		log.setOperacao("Exclusão de conta");
 
 		System.out.println("\t\tREMOVER CLIENTE:");
 		System.out.println("\t\t***********************************************");
@@ -131,8 +159,14 @@ public class Gerente {
 		System.out.print("\t\t-> ");
 		String numeroConta = input.nextLine();
 
-		PessoaDAO pessoaDAO = new PessoaDAO();
-		return pessoaDAO.deleteByNumeroConta(numeroConta);
+		status = pessoaDAO.deleteByNumeroConta(numeroConta);
+
+		if (status) {
+			log.setNumeroContaOrigem(numeroConta);
+			logDAO.save(log);
+		}
+
+		return status;
 
 	}
 
@@ -152,6 +186,14 @@ public class Gerente {
 
 	public Boolean alterarLimiteChequeEspecial(Scanner input) {
 
+		PessoaDAO pessoaDAO = new PessoaDAO();
+		LogDAO logDAO = new LogDAO();
+
+		Boolean status = false;
+		Log log = new Log();
+
+		log.setOperacao("Alteração de Limite");
+
 		System.out.println("\t\tALTERAR LIMITE CHEQUE CLIENTE:");
 		System.out.println("\t\t***********************************************");
 
@@ -163,11 +205,25 @@ public class Gerente {
 		System.out.print("\t\t-> ");
 		BigDecimal novoLimite = new BigDecimal(input.nextLine());
 
-		PessoaDAO pessoaDAO = new PessoaDAO();
-		return pessoaDAO.updateLimiteByNumeroConta(numeroConta, novoLimite);
+		status = pessoaDAO.updateLimiteByNumeroConta(numeroConta, novoLimite);
+
+		if (status) {
+			log.setNumeroContaOrigem(numeroConta);
+			logDAO.save(log);
+		}
+
+		return status;
 	}
 
 	public Boolean tranferirSaldo(Scanner input) {
+
+		PessoaDAO pessoaDAO = new PessoaDAO();
+		LogDAO logDAO = new LogDAO();
+
+		Boolean status = false;
+		Log log = new Log();
+
+		log.setOperacao("Transferência de saldos");
 
 		System.out.println("\t\tTRANSFERIR SALDO CLIENTE:");
 		System.out.println("\t\t***********************************************");
@@ -184,36 +240,62 @@ public class Gerente {
 		System.out.print("\t\t-> ");
 		BigDecimal valorTransferencia = new BigDecimal(input.nextLine());
 
-		PessoaDAO pessoaDAO = new PessoaDAO();
-
 		Pessoa pessoaContaOrigem = pessoaDAO.selectByNumeroConta(numeroContaOrigem);
 
 		if (pessoaContaOrigem.getSaldo().compareTo(valorTransferencia) == 1) {
-			return pessoaDAO.updateSaldosByNumerosConta(numeroContaOrigem, numeroContaDestino, valorTransferencia);
+			BigDecimal novoSaldoOrigem = pessoaDAO.selectByNumeroConta(numeroContaOrigem).getSaldo()
+					.subtract(valorTransferencia);
+			BigDecimal novoSaldoDestino = pessoaDAO.selectByNumeroConta(numeroContaDestino).getSaldo()
+					.add(valorTransferencia);
+
+			status = (pessoaDAO.updateReduzSaldoByNumeroConta(numeroContaOrigem, novoSaldoOrigem)
+					&& pessoaDAO.updateAdicionaSaldoByNumeroConta(numeroContaDestino, novoSaldoDestino));
+			
+			if (status) {
+				log.setNumeroContaOrigem(numeroContaOrigem);
+				log.setNumeroContaDestino(numeroContaDestino);
+				logDAO.save(log);
+			}
+
+			return status;
 		} else {
 			System.err.printf("\t\tSaldo do Cliente Nr. Conta %s insuficiente.\n", numeroContaOrigem);
-			return false;
+			return status;
 		}
 
 	}
 
 	public Boolean adicionarSaldo(Scanner input) {
 
+		PessoaDAO pessoaDAO = new PessoaDAO();
+		LogDAO logDAO = new LogDAO();
+
+		Boolean status = false;
+		Log log = new Log();
+
+		log.setOperacao("Depósito");
+		
 		System.out.println("\t\tADICIONAR SALDO CLIENTE:");
 		System.out.println("\t\t***********************************************");
-
 
 		System.out.println("\t\tInforme o Numero da Conta do Cliente:");
 		System.out.print("\t\t-> ");
 		String numeroConta = input.nextLine();
-		
+
 		System.out.println("\t\tInforme o Valor do Deposito:");
 		System.out.print("\t\t-> ");
 		BigDecimal valorDeposito = new BigDecimal(input.nextLine());
+
+		BigDecimal novoSaldo = pessoaDAO.selectByNumeroConta(numeroConta).getSaldo().add(valorDeposito);
+
+		status = pessoaDAO.updateSaldoByNumeroConta(numeroConta, novoSaldo);
 		
-		PessoaDAO pessoaDAO = new PessoaDAO();
+		if (status) {
+			log.setNumeroContaOrigem(numeroConta);
+			logDAO.save(log);
+		}
 		
-		return pessoaDAO.updateSaldoByNumeroConta(numeroConta, valorDeposito);
+		return status;
 	}
 
 	public void visualizarClientes() {
@@ -226,4 +308,15 @@ public class Gerente {
 
 	}
 
+	public void visualizarLogs() {
+		LogDAO logDAO = new LogDAO();
+		
+		System.out.println("\t\tVISUALIZAR LOGS:");
+		System.out.println("\t\t***********************************************");
+		
+		for(Log log : logDAO.selectAll()) {
+			System.out.println(log.toString());
+		}
+	}
+	
 }

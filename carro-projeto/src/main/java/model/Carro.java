@@ -1,21 +1,37 @@
 package model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Carro {
 
+	@Id
 	private String placa;
+
+	@Column(nullable = false)
 	private String cor;
+
+	@Column(nullable = false)
 	private String marca;
+
+	@Column(nullable = false)
 	private String modelo;
 
+	@Column(name = "vel_max")
+	private Double velMax;
+
 	public Carro() {
-		
+
 	}
-	
-	public Carro(String placa, String cor, String marca, String modelo) {
+
+	public Carro(String placa, String cor, String marca, String modelo, Double velMax) {
 		this.placa = placa;
 		this.cor = cor;
 		this.marca = marca;
 		this.modelo = modelo;
+		this.velMax = velMax;
 	}
 
 	public String getPlaca() {
@@ -48,6 +64,20 @@ public class Carro {
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
+	}
+
+	public Double getVelMax() {
+		return velMax;
+	}
+
+	public void setVelMax(Double velMax) {
+		this.velMax = velMax;
+	}
+
+	@Override
+	public String toString() {
+		return "Carro [placa=" + placa + ", cor=" + cor + ", marca=" + marca + ", modelo=" + modelo + ", velMax="
+				+ velMax + "]";
 	}
 
 }

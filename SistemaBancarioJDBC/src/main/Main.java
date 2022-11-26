@@ -110,6 +110,11 @@ public class Main {
 
 				gerente.visualizarClientes();
 				break;
+				
+			case "8": // Visualizar Logs
+				
+				gerente.visualizarLogs();
+				break;
 
 			default:
 				System.err.println("\t\tOpcao invalida, tente novamente.");

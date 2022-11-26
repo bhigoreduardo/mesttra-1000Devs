@@ -160,33 +160,31 @@ public class PessoaDAO extends ConnectionFactory {
 
 			statement.setString(1, numeroConta);
 			resultSet = statement.executeQuery();
+			resultSet.next();
 
 			if (resultSet.getString("nome") != null) {
 				PessoaFisica pessoaFisica = new PessoaFisica();
-				while (resultSet.next()) {
-					pessoaFisica.setNumeroConta(resultSet.getString("numero_conta"));
-					pessoaFisica.setAgencia(resultSet.getString("agencia"));
-					pessoaFisica.setTelefone(resultSet.getString("telefone"));
-					pessoaFisica.setSaldo(resultSet.getBigDecimal("saldo"));
-					pessoaFisica.setLimiteChequeEspecial(resultSet.getBigDecimal("limite_cheque_especial"));
-					pessoaFisica.setNome(resultSet.getString("nome"));
-					pessoaFisica.setCpf(resultSet.getString("cpf"));
-					pessoaFisica.setIdade(resultSet.getInt("idade"));
-				}
+
+				pessoaFisica.setNumeroConta(resultSet.getString("numero_conta"));
+				pessoaFisica.setAgencia(resultSet.getString("agencia"));
+				pessoaFisica.setTelefone(resultSet.getString("telefone"));
+				pessoaFisica.setSaldo(resultSet.getBigDecimal("saldo"));
+				pessoaFisica.setLimiteChequeEspecial(resultSet.getBigDecimal("limite_cheque_especial"));
+				pessoaFisica.setNome(resultSet.getString("nome"));
+				pessoaFisica.setCpf(resultSet.getString("cpf"));
+				pessoaFisica.setIdade(resultSet.getInt("idade"));
 
 				return pessoaFisica;
 			} else {
 				PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
-				while (resultSet.next()) {
-					pessoaJuridica.setNumeroConta(resultSet.getString("numero_conta"));
-					pessoaJuridica.setAgencia(resultSet.getString("agencia"));
-					pessoaJuridica.setTelefone(resultSet.getString("telefone"));
-					pessoaJuridica.setSaldo(resultSet.getBigDecimal("saldo"));
-					pessoaJuridica.setLimiteChequeEspecial(resultSet.getBigDecimal("limite_cheque_especial"));
-					pessoaJuridica.setCnpj(resultSet.getString(("cnpj")));
-					pessoaJuridica.setNomeFantasia(resultSet.getString("nomefantasia"));
-				}
+				pessoaJuridica.setNumeroConta(resultSet.getString("numero_conta"));
+				pessoaJuridica.setAgencia(resultSet.getString("agencia"));
+				pessoaJuridica.setTelefone(resultSet.getString("telefone"));
+				pessoaJuridica.setSaldo(resultSet.getBigDecimal("saldo"));
+				pessoaJuridica.setLimiteChequeEspecial(resultSet.getBigDecimal("limite_cheque_especial"));
+				pessoaJuridica.setCnpj(resultSet.getString(("cnpj")));
+				pessoaJuridica.setNomeFantasia(resultSet.getString("nomefantasia"));
 
 				return pessoaJuridica;
 			}
@@ -201,7 +199,7 @@ public class PessoaDAO extends ConnectionFactory {
 
 	public Boolean updateLimiteByNumeroConta(String numeroConta, BigDecimal novoLimite) {
 		status = false;
-		query = "UPDATE pessoa SET limite_cheque_especia=? WHERE numero_conta=?";
+		query = "UPDATE pessoa SET limite_cheque_especial=? WHERE numero_conta=?";
 
 		try {
 			connection = ConnectionFactory.getConnection();
@@ -221,6 +219,7 @@ public class PessoaDAO extends ConnectionFactory {
 		return status;
 	}
 
+	/*
 	public Boolean updateSaldosByNumerosConta(String numeroContaOrigem, String numeroContaDestino,
 			BigDecimal valorTransferencia) {
 		status = false;
@@ -248,16 +247,15 @@ public class PessoaDAO extends ConnectionFactory {
 
 		return status;
 	}
+	*/
 
-	public Boolean updateReduzSaldoByNumeroConta(String numeroConta, BigDecimal valorTransferencia) {
+	public Boolean updateReduzSaldoByNumeroConta(String numeroConta, BigDecimal novoSaldo) {
 		status = false;
 		query = "UPDATE pessoa SET saldo=? WHERE numero_conta=?";
 
 		try {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.prepareStatement(query);
-
-			BigDecimal novoSaldo = selectByNumeroConta(numeroConta).getSaldo().subtract(valorTransferencia);
 
 			statement.setBigDecimal(1, novoSaldo);
 			statement.setString(2, numeroConta);
@@ -273,15 +271,13 @@ public class PessoaDAO extends ConnectionFactory {
 		return status;
 	}
 
-	public Boolean updateAdicionaSaldoByNumeroConta(String numeroConta, BigDecimal valorTransferencia) {
+	public Boolean updateAdicionaSaldoByNumeroConta(String numeroConta, BigDecimal novoSaldo) {
 		status = false;
 		query = "UPDATE pessoa SET saldo=? WHERE numero_conta=?";
 
 		try {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.prepareStatement(query);
-
-			BigDecimal novoSaldo = selectByNumeroConta(numeroConta).getSaldo().add(valorTransferencia);
 
 			statement.setBigDecimal(1, novoSaldo);
 			statement.setString(2, numeroConta);
@@ -297,15 +293,13 @@ public class PessoaDAO extends ConnectionFactory {
 		return status;
 	}
 
-	public Boolean updateSaldoByNumeroConta(String numeroConta, BigDecimal valorTransferencia) {
+	public Boolean updateSaldoByNumeroConta(String numeroConta, BigDecimal novoSaldo) {
 		status = false;
 		query = "UPDATE pessoa SET saldo=? WHERE numero_conta=?";
 
 		try {
 			connection = ConnectionFactory.getConnection();
 			statement = connection.prepareStatement(query);
-
-			BigDecimal novoSaldo = selectByNumeroConta(numeroConta).getSaldo().add(valorTransferencia);
 
 			statement.setBigDecimal(1, novoSaldo);
 			statement.setString(2, numeroConta);
