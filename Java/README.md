@@ -1,10 +1,10 @@
 <h1 align="center">
-  📃<br>Linguagem JAVA
+  📃<br>JAVA
 </h1>
 
 ## 📚 Assuntos
 
-Projeto composto por exercícios básicos em Java desenvolvidos durante o Bootcamp:
+Projeto composto por exercícios em Java desenvolvidos durante o Bootcamp:
 
 - **Assuntos/Tópicos:**:
   - Tipos de dados
@@ -14,14 +14,8 @@ Projeto composto por exercícios básicos em Java desenvolvidos durante o Bootca
   - Conversão de tipos de dados
   - Comentário de código
   - Procedimento de código
-
-  Classe Abstract: Não Instancia sua implementação por meio de herdeiro, somente métodos abstract são obrigatórios
-Interface: Somente contrato, criando obrigação de implementar seus métodos
-
-CREATE TABLE IF NOT EXISTS pessoa (
-	numero_conta VARCHAR(60) NOT NULL,
-	agencia VARCHAR(10) NOT NULL,
-	telefone VARCHAR(20) NOT NULL,
-	saldo DOUBLE PRECISION NOT NULL DEFAULT 0,
-	limite_cheque_especial DOUBLE PRECISION NOT NULL DEFAULT 0
-);
+  - Orientação à Objetos
+  - Tipos de Classe e Interface
+  - Herança e Polimorfismo
+  - Driver Banco de Dados JDBC
+  - JPA e Hibernate
