@@ -1,34 +1,38 @@
 <h1 align="center">
-  📃<br>Script SQL
+  📃<br>Scripts SQL
 </h1>
 
 <details>
 <summary>✨ Conceitos</summary>
 
-- Banco de Dados: São coleções de informações que se relacionam de forma que crie um sentido.
+#### Banco de Dados:
+- São coleções de informações que se relacionam de forma que crie um sentido.
 
-- Dados: Dados representam um ou mais significados que, de forma isolada, não conseguem ainda transmitir uma mensagem clara.
+#### Dados:
+- Dados representam um ou mais significados que, de forma isolada, não conseguem ainda transmitir uma mensagem clara.
 
-- Informações: São os dados devidamente tratados e analisados, produzindo conhecimento relevante.
+#### Informações:
+- São os dados devidamente tratados e analisados, produzindo conhecimento relevante.
 
-- Conhecimento: É a informação com um contexto bem definido, processado de forma efetiva pelos profissionais.
+#### Conhecimento:
+- É a informação com um contexto bem definido, processado de forma efetiva pelos profissionais.
 
-- SGBD: Sistema de Gerenciamento de banco de dados (SGBD) é um software que incorpora e facilita as funções de definição, recuperação e alteração de dados em um Banco de Dados.
+#### SGBD:
+- Sistema de Gerenciamento de banco de dados (SGBD) é um software que incorpora e facilita as funções de definição, recuperação e alteração de dados em um Banco de Dados.
 
-- Modelo de Organização:
-## Modelo Hierárquico
+#### Modelo Hierárquico
 ![Modelo Hierárquico](assets/images/modelo-hierarquico.png)
 
-## Modelo Rede
+#### Modelo Rede
 ![Modelo Rede](assets/images/modelo-rede.png)
 
-## Modelo Relacional
+#### Modelo Relacional
 ![Modelo Relacional](assets/images/modelo-relacional.png)
 
-## Modelo Orientado a Objetos
+#### Modelo Orientado a Objetos
 ![Modelo Orientado a Objetos](assets/images/modelo-orientado-objetos.png)
 
-## Structured Query Language (SQL)
+#### Structured Query Language (SQL)
 - DDL: Linguagem de Definição de Dados.
 
 - DML: Linguagem de Manipulação de Dados.
@@ -44,24 +48,25 @@
 
 - Três níveis de abstração (necessário realizar o mapeamento entre os três modelos):
 
-## Modelo Conceitual (DER)
+#### Modelo Conceitual (DER)
 ![Modelo Conceitual (DER)](assets/images/modelo-der.png)
 
-## Modelo Lógico (Esquema do BD)
+#### Modelo Lógico (Esquema do BD)
 ![Modelo Lógico (Esquema do BD)](assets/images/modelo-logico.png)
-## Modelo Físico (Script do BD em SQL)
+
+#### Modelo Físico (Script do BD em SQL)
 ![Modelo Físico (Script do BD em SQL)](assets/images/modelo-fisico.png)
 
-## Entidades
+#### Entidades
 ![Entidades](assets/images/entidades.png)
 
-## Atributos
+#### Atributos
 ![Atributos](assets/images/atributos.png)
 
-## Relacionamentos
+#### Relacionamentos
 ![Relacionamentos](assets/images/relationamentos.png)
 
-## Restrições Relacionamentos
+#### Restrições Relacionamentos
 
 - Restrições em relacionamento: Existem 3 variações possíveis.
 
@@ -73,10 +78,10 @@
 
 ![Restrições Relacionamentos](assets/images/restricao-relationamentos.png)
 
-## CrowsFoot
+#### CrowsFoot
 ![CrowsFoot](assets/images/crowsfoot.png)
 
-## Grau do Relacionamento
+#### Grau do Relacionamento
 
 - Grau do Relacionamento:
 
@@ -88,7 +93,7 @@
 
 ![Grau do Relacionamento](assets/images/grau-relacionamento.png)
 
-## Generalização/especialização
+#### Generalização/especialização
 
 - Generalização/especialização:
 
@@ -102,10 +107,10 @@
 
 ![Generalização/especialização](assets/images/generalizacao-especializacao.png)
 
-## Entidade associativa
+#### Entidade associativa
 ![Entidade associativa](assets/images/entidade-associativa.png)
 
-## Ferramenta brModelo
+#### Ferramenta brModelo
 ![Ferramenta brModelo](assets/images/br-modelo.png)
 
 </details>
@@ -115,7 +120,7 @@
 
 - Estrutura da SQL - DDL
 
-## CREATE
+#### CREATE
 ```
 CREATE DATABASE empresa
     WITH
@@ -125,7 +130,7 @@ CREATE DATABASE empresa
     IS_TEMPLATE = False;
 ```
 
-## ALTER
+#### ALTER
 ```
 ALTER TABLE departamento
     ADD CONSTRAINT fk_departamento_funcionario
@@ -135,14 +140,14 @@ ALTER TABLE departamento
         ON DELETE NO ACTION;
 ```
 
-## DROP
+#### DROP
 ```
 DROP DATABASE empresa;
 ```
 
 - Estrutura da SQL - DML (CRUD)
 
-## INSERT
+#### INSERT
 ```
 INSERT INTO departamento (nome, localizacao, codigo_funcionario) VALUES
 	('RH', 'Setor 1', 1),
@@ -151,43 +156,43 @@ INSERT INTO departamento (nome, localizacao, codigo_funcionario) VALUES
 	('Vendas', 'Setor 4', 4);
 ```
 
-## SELECT
+#### SELECT
 ```
 SELECT *
 	FROM fruta_a;
 ```
 
-## UPDATE
+#### UPDATE
 ```
 UPDATE cliente
     SET nome = “Saitama” WHERE id_cliente = 18;
 ```
 
-## DELETE
+#### DELETE
 ```
 DELETE FROM venda WHERE status = 1;
 ```
 
-## TRUNCATE
+#### TRUNCATE
 ```
 TRUNCATE pedido CASCADE;
 ```
 
 - Estrutura da SQL - DCL
-## GRANT
+#### GRANT
 
-## REVOKE
+#### REVOKE
 
 - Estrutura da SQL - DTL
 
-## BEGIN TRANSACTION
+#### BEGIN TRANSACTION
 
-## COMMIT
+#### COMMIT
 
-## ROLLBACK
+#### ROLLBACK
 
-</details>
-
-## SQL JOIN
+#### SQL JOIN
 
 ![SQL JOIN](assets/images/sql-joins.png)
+
+</details>
