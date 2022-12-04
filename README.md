@@ -2,14 +2,12 @@
   💻<br>Bootcamp Mestta and Johnson &amp; Johnson 1000Devs
 </h1>
 
-![Resultado final do projeto](assets/image/preview.png)
-
 ## 📚 Seções
 
 O projeto é composto pelas seções:
 
 - **Java:** Nele temos todo o conteúdo ministrado no bootcamp sobre a linguagem Java;
-- **PostgresSQL**  Nele temos todo o conteúdo ministrado no bootcamp sobre banco de dados Postgres;
+- **PostgresSQL** Nele temos todo o conteúdo ministrado no bootcamp sobre banco de dados PostgreSQL;
 
 ---
 
@@ -18,7 +16,7 @@ O projeto é composto pelas seções:
 O desenvolvimento deste bootcamp foram utilizadas as seguintes tecnologias:
 
 - Java;
-- Postgress;
+- PostgreSQL;
 
 ---
 
