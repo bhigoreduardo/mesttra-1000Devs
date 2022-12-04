@@ -1,8 +1,8 @@
-package escola.domain.dao;
+package dao;
 
 import java.util.List;
 
-import escola.domain.entity.Professor;
+import entity.Professor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
@@ -15,35 +15,35 @@ public class ProfessorDAO {
 		this.entityManager = Persistence.createEntityManagerFactory("escola").createEntityManager();
 	}
 
-	public Boolean criarProfessor(Professor Professor) {
-		entityManager.getTransaction().begin();;
-		entityManager.persist(Professor);
+	public Boolean save(Professor professor) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(professor);
 		entityManager.getTransaction().commit();
 
 		return true;
 	}
 
-	public Professor consularProfessor(int matricula) {
-		return entityManager.find(Professor.class, matricula);
-	}
-
-	public List<Professor> listarProfessores() {
+	public List<Professor> findAll() {
 		Query query = entityManager.createQuery("SELECT p FROM Professor p");
+
 		return query.getResultList();
 	}
 
-	public Boolean deletarProfessor(int matricula) {
-		Professor professor = entityManager.find(Professor.class, matricula);
+	public Professor findByCodigo(int codFuncionario) {
+		return entityManager.find(Professor.class, codFuncionario);
+	}
+
+	public Boolean removeByCodigo(int codFuncionario) {
+		Professor professor = entityManager.find(Professor.class, codFuncionario);
 
 		if (professor == null) {
 			return false;
 		}
 
-		entityManager.getTransaction().begin();;
+		entityManager.getTransaction().begin();
 		entityManager.remove(professor);
 		entityManager.getTransaction().commit();
 
 		return true;
 	}
-
 }

@@ -1,7 +1,8 @@
-package escola.domain.entity;
+package entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ public class Professor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cod_funcionario")
 	private int codFuncionario;
 
 	@Column(nullable = false)
@@ -23,7 +25,7 @@ public class Professor {
 	private String telefone;
 
 	@Column(name = "nivel_graduacao", nullable = false)
-	private String nivelGraduacao;
+	private String nivelGraduacao = "MESTRADO";
 
 	@Column(nullable = false)
 	private double salario;
@@ -31,12 +33,8 @@ public class Professor {
 	@Column(nullable = false)
 	private String disciplina;
 
-	@OneToMany(mappedBy = "professor")
-	private List<Turma> turma;
-
-	public Professor() {
-
-	}
+	@OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
+	private List<Turma> turmas;
 
 	public int getCodFuncionario() {
 		return codFuncionario;
@@ -86,12 +84,19 @@ public class Professor {
 		this.disciplina = disciplina;
 	}
 
-	public List<Turma> getTurma() {
-		return turma;
+	public List<Turma> getTurmas() {
+		return turmas;
 	}
 
-	public void setTurma(List<Turma> turma) {
-		this.turma = turma;
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
+	}
+
+	@Override
+	public String toString() {
+		return "Professor [codFuncionario=" + codFuncionario + ", nome=" + nome + ", telefone=" + telefone
+				+ ", nivelGraduacao=" + nivelGraduacao + ", salario=" + salario + ", disciplina=" + disciplina
+				+ ", turmas=" + turmas + "]";
 	}
 
 }

@@ -1,10 +1,12 @@
-package escola.domain.entity;
+package entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -12,6 +14,7 @@ public class Sala {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "nro_sala", nullable = false)
 	private int nroSala;
 
 	@Column(nullable = false)
@@ -23,12 +26,9 @@ public class Sala {
 	@Column(nullable = false)
 	private double altura;
 
-	@OneToOne(mappedBy = "sala")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "turma_fk", referencedColumnName = "cod_turma")
 	private Turma turma;
-
-	public Sala() {
-
-	}
 
 	public int getNroSala() {
 		return nroSala;

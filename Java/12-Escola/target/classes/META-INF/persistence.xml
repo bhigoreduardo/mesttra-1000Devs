@@ -7,10 +7,8 @@
 		<!-- JPA -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<!-- Classe referente a entidade -->
-		<class>com.escola.domain.entity.Aluno</class>
-		<class>com.escola.domain.entity.Professor</class>
-		<class>com.escola.domain.entity.Sala</class>
-		<class>com.escola.domain.entity.Turma</class>
+		<class>br.com.escola.entity.Turma</class>
+		<class>br.com.escola.entity.Professor</class>
 		<properties>
 			<property name="jakarta.persistence.jdbc.driver"
 				value="org.postgresql.Driver" />
@@ -25,7 +23,7 @@
 				value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
 </persistence>

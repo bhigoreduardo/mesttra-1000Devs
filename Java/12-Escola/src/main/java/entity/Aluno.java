@@ -1,4 +1,4 @@
-package escola.domain.entity;
+package entity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,16 +25,14 @@ public class Aluno {
 	@Column(nullable = false)
 	private String serie;
 
-	@Column(nullable = false)
+	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate dataNascimento;
 
 	@ManyToMany
-	@JoinTable(name = "aluno_turma", joinColumns = @JoinColumn(name = "aluno_fk"), inverseJoinColumns = @JoinColumn(name = "turma_fk"))
+	@JoinTable(name = "turma_aluno",
+				joinColumns = @JoinColumn(name = "aluno_fk", referencedColumnName = "matricula"),
+				inverseJoinColumns = @JoinColumn(name = "turma_fk", referencedColumnName = "cod_turma"))
 	private List<Turma> turmas;
-
-	public Aluno() {
-
-	}
 
 	public int getMatricula() {
 		return matricula;

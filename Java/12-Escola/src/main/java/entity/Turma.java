@@ -1,7 +1,9 @@
-package escola.domain.entity;
+package entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,22 +18,18 @@ public class Turma {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cod_turma")
 	private int codTurma;
-
-	@OneToOne
-	@JoinColumn(name = "nro_sala_fk", referencedColumnName = "nro_sala")
-	private Sala sala;
 
 	@ManyToOne
 	@JoinColumn(name = "cod_funcionario_fk", referencedColumnName = "cod_funcionario")
 	private Professor professor;
 
-	@ManyToMany(mappedBy = "turmas")
+	@ManyToMany(mappedBy = "turmas", cascade = CascadeType.ALL)
 	private List<Aluno> alunos;
 
-	public Turma() {
-
-	}
+	@OneToOne(mappedBy = "turma", cascade = CascadeType.ALL)
+	private Sala sala;
 
 	public int getCodTurma() {
 		return codTurma;
@@ -39,14 +37,6 @@ public class Turma {
 
 	public void setCodTurma(int codTurma) {
 		this.codTurma = codTurma;
-	}
-
-	public Sala getSala() {
-		return sala;
-	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
 	}
 
 	public Professor getProfessor() {
@@ -63,6 +53,20 @@ public class Turma {
 
 	public void setAlunos(List<Aluno> alunos) {
 		this.alunos = alunos;
+	}
+
+	public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
+	@Override
+	public String toString() {
+		return "Turma [codTurma=" + codTurma + ", professor=" + professor + ", alunos=" + alunos + ", sala=" + sala
+				+ "]";
 	}
 
 }
