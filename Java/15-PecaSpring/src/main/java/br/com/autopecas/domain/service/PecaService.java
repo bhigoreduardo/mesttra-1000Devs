@@ -75,4 +75,22 @@ public class PecaService {
 		}
 	}
 
+	public List<PecaDTO> findByNomeStartingWith(String texto) {
+		return pecaRepository.findByNomeStartingWith(texto).stream()
+				.map(peca -> findById(peca.getCodBarras()))
+				.collect(Collectors.toList());
+	}
+
+	public List<PecaDTO> findByModeloCarro(String modelo) {
+		return pecaRepository.findByModeloCarro(modelo).stream()
+				.map(peca -> findById(peca.getCodBarras()))
+				.collect(Collectors.toList());
+	}
+
+	public List<PecaDTO> findByCategoria(String categoria) {
+		return pecaRepository.findByCategoria(categoria).stream()
+				.map(peca -> findById(peca.getCodBarras()))
+				.collect(Collectors.toList());
+	}
+
 }

@@ -59,4 +59,19 @@ public class PecaController {
 		pecaService.deleteById(codBarras);
 	}
 
+	@GetMapping("/{texto}/comeco")
+	public List<PecaDTO> findByNomeStartingWith(@PathVariable String texto) {
+		return pecaService.findByNomeStartingWith(texto);
+	}
+
+	@GetMapping("/{modelo}/modelo")
+	public List<PecaDTO> findByModeloCarro(@PathVariable String modelo) {
+		return pecaService.findByModeloCarro(modelo);
+	}
+
+	@GetMapping("/{categoria}/categoria")
+	public List<PecaDTO> findByCategoria(@PathVariable String categoria) {
+		return pecaService.findByCategoria(categoria);
+	}
+
 }
